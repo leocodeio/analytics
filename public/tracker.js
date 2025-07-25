@@ -4,6 +4,7 @@
 
   const websiteId = scriptElement.getAttribute("data-website-id");
   const apiEndpoint = "/api/collect"; // Relative path to our Next.js API
+  const debug = scriptElement.getAttribute("data-debug") === "true";
 
   if (!websiteId) {
     console.error("Analytics Tracker: data-website-id is missing.");
@@ -17,6 +18,13 @@
     sessionStorage.setItem("analytics-session-id", sessionId);
   }
 
+  // Track if this is the user's first visit
+  const isFirstVisit = !localStorage.getItem("analytics-visited");
+  if (isFirstVisit) {
+    localStorage.setItem("analytics-visited", "true");
+  }
+
+  // Enhanced sendEvent function with retry logic
   const sendEvent = (eventType, eventName, data = {}) => {
     const payload = {
       websiteId,
@@ -28,24 +36,42 @@
       screenWidth: window.screen.width,
       screenHeight: window.screen.height,
       timestamp: new Date().toISOString(),
+      isFirstVisit,
       ...data,
     };
 
-    // Use sendBeacon for reliability, fallback to fetch
-    if (navigator.sendBeacon) {
-      const headers = { type: "application/json" };
-      const blob = new Blob([JSON.stringify(payload)], headers);
-      navigator.sendBeacon(apiEndpoint, blob);
-    } else {
-      fetch(apiEndpoint, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" },
-        keepalive: true,
-      }).catch((error) => {
-        console.error("Analytics error:", error);
-      });
+    if (debug) {
+      console.log("Analytics Event:", payload);
     }
+
+    // Enhanced sending with retry logic
+    const sendWithRetry = (attempt = 1) => {
+      if (navigator.sendBeacon) {
+        const headers = { type: "application/json" };
+        const blob = new Blob([JSON.stringify(payload)], headers);
+        const success = navigator.sendBeacon(apiEndpoint, blob);
+        
+        if (!success && attempt < 3) {
+          setTimeout(() => sendWithRetry(attempt + 1), 1000);
+        }
+      } else {
+        fetch(apiEndpoint, {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" },
+          keepalive: true,
+        }).catch((error) => {
+          if (debug) {
+            console.error("Analytics error:", error);
+          }
+          if (attempt < 3) {
+            setTimeout(() => sendWithRetry(attempt + 1), 1000);
+          }
+        });
+      }
+    };
+
+    sendWithRetry();
   };
 
   // 1. Track initial pageview

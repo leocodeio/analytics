@@ -1,100 +1,195 @@
-# Web Analytics Platform
+# 📊 Web Analytics Platform
 
-A modern, privacy-focused web analytics platform built with Next.js 14, Prisma, and PostgreSQL.
+A modern, privacy-focused web analytics platform built with Next.js, TypeScript, and PostgreSQL. Track visitor behavior, analyze traffic patterns, and gain insights into your website's performance with a clean, intuitive dashboard.
 
-## Features
+## ✨ Features
 
-- 🚀 **Real-time Analytics**: Track page views, custom events, and user behavior
-- 🔒 **Privacy Focused**: GDPR compliant, no cookies, minimal data collection
-- ⚡ **Lightweight**: Minimal impact on website performance
-- 📊 **Beautiful Dashboard**: Clean, intuitive interface with charts and insights
-- 🌐 **Multi-website Support**: Manage multiple websites from one dashboard
+### 🎯 Core Analytics
+- **Real-time visitor tracking** - Monitor live activity as it happens
+- **Page view analytics** - Track which pages are most popular
+- **Session tracking** - Understand user behavior and session duration
+- **Custom event tracking** - Track specific user interactions
+- **Bounce rate analysis** - Measure engagement quality
+- **Device & screen resolution tracking** - Understand your audience's setup
 
-## Tech Stack
+### � Advanced Analytics
+- **Conversion funnel analysis** - Track user journey through your site
+- **Geographic distribution** - See where your visitors come from
+- **Traffic source analysis** - Understand how users find your site
+- **User flow mapping** - Visualize navigation patterns
+- **Performance metrics** - Track page load times and performance
 
-- **Frontend**: Next.js 14 with App Router, React Server Components
-- **Backend**: Next.js API Routes, Prisma ORM
-- **Database**: PostgreSQL
-- **Authentication**: NextAuth.js
-- **UI**: Tailwind CSS, Recharts for visualizations
-- **TypeScript**: Full type safety throughout
+### 🛡️ Privacy & Compliance
+- **GDPR compliant** - Privacy-focused design
+- **IP anonymization** - User privacy protection
+- **No cookies required** - Uses localStorage and sessionStorage
+- **Data retention controls** - Manage how long data is stored
 
-## Getting Started
+### 🔧 Technical Features
+- **Lightweight tracking script** - Minimal performance impact
+- **Real-time dashboard** - Live updates without page refresh
+- **Data export** - CSV and JSON export capabilities
+- **Google OAuth integration** - Secure authentication
+- **Responsive design** - Works on all devices
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm
+- Node.js 18+ and pnpm
 - PostgreSQL database
+- Google OAuth credentials (for authentication)
 
-### Installation
-
-1. Clone the repository:
+### 1. Clone and Install
 
 ```bash
 git clone https://github.com/leocodeio/analytics.git
 cd analytics
-```
-
-2. Install dependencies:
-
-```bash
 pnpm install
 ```
 
-3. Set up environment variables:
+### 2. Environment Setup
 
-```bash
-cp .env.example .env
-# Edit .env with your database credentials and secrets
+Create a `.env` file:
+
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/analytics_db"
+
+# NextAuth.js
+NEXTAUTH_SECRET="your-secret-key-here"
+NEXTAUTH_URL="http://localhost:3000"
+
+# Google OAuth
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
 ```
 
-4. Set up the database:
+### 3. Database Setup
 
 ```bash
-npx prisma migrate dev --name init
-npx prisma generate
+# Create and migrate database
+pnpm db:migrate
+
+# Generate Prisma client
+pnpm db:generate
 ```
 
-5. Run the development server:
+### 4. Start Development Server
 
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the application.
+Visit `http://localhost:3000` and sign in with Google to get started!
 
-## Usage
+### 5. Add Demo Data (Optional)
 
-### 1. Create an Account
-
-Sign up for a new account or sign in to your existing account.
-
-### 2. Add a Website
-
-In the dashboard, go to "Websites" and add your website domain.
-
-### 3. Install Tracking Script
-
-Copy the provided tracking script and add it to your website's `<head>` section:
-
-```html
-<script
-  async
-  src="http://localhost:3000/tracker.js"
-  data-website-id="your-website-id"
-></script>
+```bash
+# First sign in via the web interface, then:
+pnpm db:seed
 ```
 
-### 4. Track Custom Events
+## 📋 Integration Guide
 
-Add `data-analytics` attributes to elements you want to track:
+### Basic Setup
+
+Add this script to your website's `<head>` section:
 
 ```html
-<button data-analytics="signup-click">Sign Up</button>
+<script 
+  async 
+  src="https://your-analytics-domain.com/tracker.js" 
+  data-website-id="your-website-id">
+</script>
+```
+
+### Custom Event Tracking
+
+Track specific user interactions by adding `data-analytics` attributes:
+
+```html
+<!-- Button clicks -->
+<button data-analytics="signup-button">Sign Up</button>
+
+<!-- Link clicks -->
 <a href="/pricing" data-analytics="pricing-link">View Pricing</a>
+
+<!-- Form submissions -->
+<form data-analytics="newsletter-signup">
+  <input type="email" placeholder="Your email" />
+  <button type="submit">Subscribe</button>
+</form>
 ```
 
-## License
+### Manual Event Tracking
+
+Use the JavaScript API for custom tracking:
+
+```javascript
+// Track custom events
+window.analytics.track('video-play', {
+  videoTitle: 'Product Demo',
+  duration: 120
+});
+
+// Track page views (for SPAs)
+window.analytics.trackPageview('/virtual-page');
+```
+
+## 🏗️ Architecture
+
+### Tech Stack
+
+- **Frontend**: Next.js 15, React 19, Tailwind CSS
+- **Backend**: Next.js API Routes, Prisma ORM
+- **Database**: PostgreSQL
+- **Authentication**: NextAuth.js with Google OAuth
+- **Charts**: Recharts
+- **Tracking**: Vanilla JavaScript (no dependencies)
+
+### Dashboard Features
+
+- **Overview Page** - Real-time metrics and key insights
+- **Real-time Page** - Live visitor activity monitoring
+- **Reports Page** - Advanced analytics and funnel analysis
+- **Websites Management** - Multi-site support
+- **Events Page** - Custom event analysis
+- **Integration Guide** - Easy setup instructions
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+pnpm db:migrate   # Run database migrations
+pnpm db:generate  # Generate Prisma client
+pnpm db:seed      # Seed demo data
+```
+
+## 🚢 Deployment
+
+### Vercel (Recommended)
+
+1. Connect your repository to Vercel
+2. Add environment variables in Vercel dashboard
+3. Deploy automatically on git push
+
+## 🔒 Privacy & Security
+
+- **No PII collection** - We don't store personal information
+- **IP anonymization** - IP addresses are hashed before storage
+- **GDPR compliance** - Built with privacy regulations in mind
+- **Secure authentication** - OAuth 2.0 with Google
+
+## 📝 License
 
 MIT License - see LICENSE file for details.
+
+---
+
+Made with ❤️ for the developer community
