@@ -88,7 +88,7 @@ export default async function RealtimePage({
                 ))}
               </select>
             )}
-            
+
             <a
               href="/dashboard"
               className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded-md font-medium transition-colors"
@@ -111,14 +111,27 @@ export default async function RealtimePage({
           💡 How Real-time Analytics Work
         </h2>
         <div className="text-blue-700 space-y-2">
-          <p>• <strong>Active Visitors:</strong> Users who have been active in the last 5 minutes</p>
-          <p>• <strong>New Visitors:</strong> First-time visitors in the last minute</p>
-          <p>• <strong>Recent Events:</strong> All page views and custom events from the last 10 minutes</p>
-          <p>• <strong>Auto-refresh:</strong> Data updates automatically every 30 seconds</p>
+          <p>
+            • <strong>Active Visitors:</strong> Users who have been active in
+            the last 5 minutes
+          </p>
+          <p>
+            • <strong>New Visitors:</strong> First-time visitors in the last
+            minute
+          </p>
+          <p>
+            • <strong>Recent Events:</strong> All page views and custom events
+            from the last 10 minutes
+          </p>
+          <p>
+            • <strong>Auto-refresh:</strong> Data updates automatically every 30
+            seconds
+          </p>
         </div>
         <div className="mt-4 pt-4 border-t border-blue-200">
           <p className="text-sm text-blue-600">
-            <strong>Tip:</strong> Keep this page open to monitor live traffic during campaigns, launches, or important events.
+            <strong>Tip:</strong> Keep this page open to monitor live traffic
+            during campaigns, launches, or important events.
           </p>
         </div>
       </div>

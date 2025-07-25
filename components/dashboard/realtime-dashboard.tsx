@@ -19,7 +19,10 @@ interface RealtimeDashboardProps {
   initialData: RealtimeStats;
 }
 
-export function RealtimeDashboard({ websiteId, initialData }: RealtimeDashboardProps) {
+export function RealtimeDashboard({
+  websiteId,
+  initialData,
+}: RealtimeDashboardProps) {
   const [data, setData] = useState<RealtimeStats>(initialData);
   const [isConnected, setIsConnected] = useState(false);
 
@@ -84,7 +87,9 @@ export function RealtimeDashboard({ websiteId, initialData }: RealtimeDashboardP
       <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-medium text-gray-900">Active Visitors</h3>
+            <h3 className="text-lg font-medium text-gray-900">
+              Active Visitors
+            </h3>
             <p className="text-3xl font-bold text-green-600 mt-2">
               {data.activeVisitors}
             </p>
@@ -132,7 +137,9 @@ export function RealtimeDashboard({ websiteId, initialData }: RealtimeDashboardP
                     </p>
                   </div>
                   <p className="text-xs text-gray-600">
-                    {event.eventType === "pageview" ? "Page View" : "Custom Event"}
+                    {event.eventType === "pageview"
+                      ? "Page View"
+                      : "Custom Event"}
                     {event.path && ` • ${event.path}`}
                   </p>
                 </div>
@@ -152,7 +159,10 @@ export function RealtimeDashboard({ websiteId, initialData }: RealtimeDashboardP
             <div>
               <p className="text-sm text-gray-600">Page Views</p>
               <p className="text-lg font-semibold text-gray-900">
-                {data.recentEvents.filter(e => e.eventType === "pageview").length}
+                {
+                  data.recentEvents.filter((e) => e.eventType === "pageview")
+                    .length
+                }
               </p>
             </div>
           </div>
@@ -166,7 +176,10 @@ export function RealtimeDashboard({ websiteId, initialData }: RealtimeDashboardP
             <div>
               <p className="text-sm text-gray-600">Custom Events</p>
               <p className="text-lg font-semibold text-gray-900">
-                {data.recentEvents.filter(e => e.eventType === "custom").length}
+                {
+                  data.recentEvents.filter((e) => e.eventType === "custom")
+                    .length
+                }
               </p>
             </div>
           </div>

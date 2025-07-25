@@ -5,6 +5,7 @@ A modern, privacy-focused web analytics platform built with Next.js, TypeScript,
 ## ✨ Features
 
 ### 🎯 Core Analytics
+
 - **Real-time visitor tracking** - Monitor live activity as it happens
 - **Page view analytics** - Track which pages are most popular
 - **Session tracking** - Understand user behavior and session duration
@@ -13,6 +14,7 @@ A modern, privacy-focused web analytics platform built with Next.js, TypeScript,
 - **Device & screen resolution tracking** - Understand your audience's setup
 
 ### � Advanced Analytics
+
 - **Conversion funnel analysis** - Track user journey through your site
 - **Geographic distribution** - See where your visitors come from
 - **Traffic source analysis** - Understand how users find your site
@@ -20,12 +22,14 @@ A modern, privacy-focused web analytics platform built with Next.js, TypeScript,
 - **Performance metrics** - Track page load times and performance
 
 ### 🛡️ Privacy & Compliance
+
 - **GDPR compliant** - Privacy-focused design
 - **IP anonymization** - User privacy protection
 - **No cookies required** - Uses localStorage and sessionStorage
 - **Data retention controls** - Manage how long data is stored
 
 ### 🔧 Technical Features
+
 - **Lightweight tracking script** - Minimal performance impact
 - **Real-time dashboard** - Live updates without page refresh
 - **Data export** - CSV and JSON export capabilities
@@ -97,11 +101,11 @@ pnpm db:seed
 Add this script to your website's `<head>` section:
 
 ```html
-<script 
-  async 
-  src="https://your-analytics-domain.com/tracker.js" 
-  data-website-id="your-website-id">
-</script>
+<script
+  async
+  src="https://your-analytics-domain.com/tracker.js"
+  data-website-id="your-website-id"
+></script>
 ```
 
 ### Custom Event Tracking
@@ -128,13 +132,13 @@ Use the JavaScript API for custom tracking:
 
 ```javascript
 // Track custom events
-window.analytics.track('video-play', {
-  videoTitle: 'Product Demo',
-  duration: 120
+window.analytics.track("video-play", {
+  videoTitle: "Product Demo",
+  duration: 120,
 });
 
 // Track page views (for SPAs)
-window.analytics.trackPageview('/virtual-page');
+window.analytics.trackPageview("/virtual-page");
 ```
 
 ## 🏗️ Architecture

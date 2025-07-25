@@ -49,9 +49,10 @@ export default async function IntegrationPage() {
               Step 1: Copy the Tracking Script
             </h2>
             <p className="text-gray-600 mb-4">
-              Add this script to the &lt;head&gt; section of your website, just before the closing &lt;/head&gt; tag:
+              Add this script to the &lt;head&gt; section of your website, just
+              before the closing &lt;/head&gt; tag:
             </p>
-            
+
             {firstWebsite && (
               <div className="bg-gray-50 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
@@ -59,7 +60,11 @@ export default async function IntegrationPage() {
                     Tracking script for {firstWebsite.name}
                   </span>
                   <button
-                    onClick={() => navigator.clipboard.writeText(`<script async src="${window.location.origin}/tracker.js" data-website-id="${firstWebsite.id}"></script>`)}
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        `<script async src="${window.location.origin}/tracker.js" data-website-id="${firstWebsite.id}"></script>`
+                      )
+                    }
                     className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
                   >
                     Copy
@@ -68,7 +73,11 @@ export default async function IntegrationPage() {
                 <pre className="text-sm text-gray-800 overflow-x-auto">
                   <code>{`<script 
   async 
-  src="${typeof window !== 'undefined' ? window.location.origin : 'https://yourapp.com'}/tracker.js" 
+  src="${
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://yourapp.com"
+  }/tracker.js" 
   data-website-id="${firstWebsite.id}">
 </script>`}</code>
                 </pre>
@@ -82,12 +91,18 @@ export default async function IntegrationPage() {
               Step 2: Track Custom Events (Optional)
             </h2>
             <p className="text-gray-600 mb-4">
-              Add the <code className="bg-gray-100 px-2 py-1 rounded text-sm">data-analytics</code> attribute to any element you want to track:
+              Add the{" "}
+              <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+                data-analytics
+              </code>{" "}
+              attribute to any element you want to track:
             </p>
-            
+
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Button Clicks</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Button Clicks
+                </h3>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <pre className="text-sm text-gray-800">
                     <code>{`<button data-analytics="signup-button">Sign Up</button>
@@ -97,7 +112,9 @@ export default async function IntegrationPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Link Clicks</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Link Clicks
+                </h3>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <pre className="text-sm text-gray-800">
                     <code>{`<a href="/pricing" data-analytics="pricing-link">View Pricing</a>
@@ -107,7 +124,9 @@ export default async function IntegrationPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Form Submissions</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Form Submissions
+                </h3>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <pre className="text-sm text-gray-800">
                     <code>{`<form data-analytics="newsletter-signup">
@@ -128,12 +147,27 @@ export default async function IntegrationPage() {
             <p className="text-gray-600 mb-4">
               After adding the script to your website:
             </p>
-            
+
             <ol className="list-decimal list-inside space-y-2 text-gray-700">
               <li>Visit your website in a new browser tab</li>
               <li>Check your browser's developer console for any errors</li>
-              <li>Return to your <a href="/dashboard" className="text-indigo-600 hover:text-indigo-700">analytics dashboard</a> to see live data</li>
-              <li>Click on elements with <code className="bg-gray-100 px-1 rounded text-sm">data-analytics</code> attributes to test custom events</li>
+              <li>
+                Return to your{" "}
+                <a
+                  href="/dashboard"
+                  className="text-indigo-600 hover:text-indigo-700"
+                >
+                  analytics dashboard
+                </a>{" "}
+                to see live data
+              </li>
+              <li>
+                Click on elements with{" "}
+                <code className="bg-gray-100 px-1 rounded text-sm">
+                  data-analytics
+                </code>{" "}
+                attributes to test custom events
+              </li>
             </ol>
           </div>
 

@@ -22,32 +22,52 @@ async function main() {
     where: { domain: "demo.example.com", userId: user.id },
   });
 
-  const demoWebsite = existingDemo || await prisma.website.create({
-    data: {
-      name: "Demo Website",
-      domain: "demo.example.com",
-      userId: user.id,
-    },
-  });
+  const demoWebsite =
+    existingDemo ||
+    (await prisma.website.create({
+      data: {
+        name: "Demo Website",
+        domain: "demo.example.com",
+        userId: user.id,
+      },
+    }));
 
   const existingBlog = await prisma.website.findFirst({
     where: { domain: "blog.example.com", userId: user.id },
   });
 
-  const blogWebsite = existingBlog || await prisma.website.create({
-    data: {
-      name: "My Blog",
-      domain: "blog.example.com",
-      userId: user.id,
-    },
-  });
+  const blogWebsite =
+    existingBlog ||
+    (await prisma.website.create({
+      data: {
+        name: "My Blog",
+        domain: "blog.example.com",
+        userId: user.id,
+      },
+    }));
 
   console.log(`🌐 Created websites: ${demoWebsite.name}, ${blogWebsite.name}`);
 
   // Generate demo events for the last 30 days
   const events = [];
-  const paths = ["/", "/about", "/contact", "/blog", "/blog/post-1", "/blog/post-2", "/products", "/pricing"];
-  const referrers = ["https://google.com", "https://twitter.com", "https://github.com", null, null, null]; // More direct traffic
+  const paths = [
+    "/",
+    "/about",
+    "/contact",
+    "/blog",
+    "/blog/post-1",
+    "/blog/post-2",
+    "/products",
+    "/pricing",
+  ];
+  const referrers = [
+    "https://google.com",
+    "https://twitter.com",
+    "https://github.com",
+    null,
+    null,
+    null,
+  ]; // More direct traffic
   const userAgents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
@@ -60,18 +80,20 @@ async function main() {
   for (let day = 30; day >= 0; day--) {
     const date = new Date();
     date.setDate(date.getDate() - day);
-    
+
     // Generate 10-50 events per day (more recent days have more traffic)
     const eventsPerDay = Math.floor(Math.random() * 40) + 10 + (30 - day);
-    
+
     for (let i = 0; i < eventsPerDay; i++) {
       const eventDate = new Date(date);
       eventDate.setHours(Math.floor(Math.random() * 24));
       eventDate.setMinutes(Math.floor(Math.random() * 60));
-      
+
       events.push({
         websiteId: Math.random() > 0.7 ? blogWebsite.id : demoWebsite.id,
-        sessionId: `session_${date.getTime()}_${Math.floor(Math.random() * 100)}`,
+        sessionId: `session_${date.getTime()}_${Math.floor(
+          Math.random() * 100
+        )}`,
         eventType: Math.random() > 0.9 ? "custom" : "pageview",
         eventName: paths[Math.floor(Math.random() * paths.length)],
         path: paths[Math.floor(Math.random() * paths.length)],
@@ -86,13 +108,15 @@ async function main() {
 
   // Insert events in batches
   console.log(`📊 Creating ${events.length} demo events...`);
-  
+
   for (let i = 0; i < events.length; i += 100) {
     const batch = events.slice(i, i + 100);
     await prisma.event.createMany({
       data: batch,
     });
-    console.log(`📈 Created events ${i + 1} - ${Math.min(i + 100, events.length)}`);
+    console.log(
+      `📈 Created events ${i + 1} - ${Math.min(i + 100, events.length)}`
+    );
   }
 
   console.log("✅ Demo data seeding completed!");

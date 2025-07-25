@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get("endDate");
 
     if (!websiteId) {
-      return NextResponse.json({ error: "Website ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Website ID is required" },
+        { status: 400 }
+      );
     }
 
     // Verify user owns this website
@@ -77,7 +80,9 @@ export async function GET(request: NextRequest) {
             event.screenWidth?.toString() || "",
             event.screenHeight?.toString() || "",
             event.sessionId,
-          ].map((field) => `"${field.replace(/"/g, '""')}"`).join(",")
+          ]
+            .map((field) => `"${field.replace(/"/g, '""')}"`)
+            .join(",")
         ),
       ];
 
@@ -86,7 +91,9 @@ export async function GET(request: NextRequest) {
       return new NextResponse(csvContent, {
         headers: {
           "Content-Type": "text/csv",
-          "Content-Disposition": `attachment; filename="${website.domain}-analytics-${new Date().toISOString().split('T')[0]}.csv"`,
+          "Content-Disposition": `attachment; filename="${
+            website.domain
+          }-analytics-${new Date().toISOString().split("T")[0]}.csv"`,
         },
       });
     }
@@ -102,7 +109,6 @@ export async function GET(request: NextRequest) {
       eventCount: events.length,
       events: events,
     });
-
   } catch (error) {
     console.error("Export error:", error);
     return NextResponse.json(

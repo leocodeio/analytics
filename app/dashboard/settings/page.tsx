@@ -81,7 +81,7 @@ export default async function SettingsPage() {
               Manage Websites
             </a>
           </div>
-          
+
           {user.websites.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <p className="mb-4">No websites added yet</p>
@@ -132,7 +132,7 @@ export default async function SettingsPage() {
               </div>
               <span className="text-sm text-gray-500">13 months</span>
             </div>
-            
+
             <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
               <div>
                 <h3 className="font-medium text-gray-900">Export Data</h3>
@@ -164,10 +164,12 @@ export default async function SettingsPage() {
                 ✓ Compliant
               </span>
             </div>
-            
+
             <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
               <div>
-                <h3 className="font-medium text-gray-900">IP Address Anonymization</h3>
+                <h3 className="font-medium text-gray-900">
+                  IP Address Anonymization
+                </h3>
                 <p className="text-sm text-gray-600">
                   IP addresses are anonymized before storage
                 </p>

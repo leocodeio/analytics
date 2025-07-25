@@ -50,7 +50,7 @@
         const headers = { type: "application/json" };
         const blob = new Blob([JSON.stringify(payload)], headers);
         const success = navigator.sendBeacon(apiEndpoint, blob);
-        
+
         if (!success && attempt < 3) {
           setTimeout(() => sendWithRetry(attempt + 1), 1000);
         }

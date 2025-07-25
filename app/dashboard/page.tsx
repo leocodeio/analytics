@@ -14,7 +14,10 @@ import { redirect } from "next/navigation";
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: Promise<{ period?: "24h" | "7d" | "30d" | "90d"; website?: string }>;
+  searchParams: Promise<{
+    period?: "24h" | "7d" | "30d" | "90d";
+    website?: string;
+  }>;
 }) {
   const session = await getServerSession(authOptions);
 
