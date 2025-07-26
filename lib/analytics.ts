@@ -115,8 +115,12 @@ export async function getAnalyticsData(
   const referrerCounts = new Map<string, number>();
   events.forEach((event) => {
     if (event.referrer && event.referrer !== "") {
-      const referrer = new URL(event.referrer).hostname;
-      referrerCounts.set(referrer, (referrerCounts.get(referrer) || 0) + 1);
+      try {
+        const referrer = new URL(event.referrer).hostname;
+        referrerCounts.set(referrer, (referrerCounts.get(referrer) || 0) + 1);
+      } catch {
+        // Invalid URL, skip
+      }
     }
   });
   const topReferrers = Array.from(referrerCounts.entries())
