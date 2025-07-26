@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { IntegrationScriptCopy } from "@/components/dashboard/integration-script-copy";
 
 export default async function IntegrationPage() {
   const session = await getServerSession(authOptions);
@@ -54,34 +55,10 @@ export default async function IntegrationPage() {
             </p>
 
             {firstWebsite && (
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">
-                    Tracking script for {firstWebsite.name}
-                  </span>
-                  <button
-                    onClick={() =>
-                      navigator.clipboard.writeText(
-                        `<script async src="${window.location.origin}/tracker.js" data-website-id="${firstWebsite.id}"></script>`
-                      )
-                    }
-                    className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
-                  >
-                    Copy
-                  </button>
-                </div>
-                <pre className="text-sm text-gray-800 overflow-x-auto">
-                  <code>{`<script 
-  async 
-  src="${
-    typeof window !== "undefined"
-      ? window.location.origin
-      : "https://yourapp.com"
-  }/tracker.js" 
-  data-website-id="${firstWebsite.id}">
-</script>`}</code>
-                </pre>
-              </div>
+              <IntegrationScriptCopy 
+                websiteId={firstWebsite.id}
+                websiteName={firstWebsite.name}
+              />
             )}
           </div>
 

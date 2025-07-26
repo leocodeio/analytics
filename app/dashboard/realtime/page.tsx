@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getRealtimeData } from "@/lib/analytics";
 import { RealtimeDashboard } from "@/components/dashboard/realtime-dashboard";
+import { WebsiteSelector } from "@/components/dashboard/website-selector";
 import { redirect } from "next/navigation";
 
 export default async function RealtimePage({
@@ -73,21 +74,10 @@ export default async function RealtimePage({
           </div>
           <div className="flex items-center space-x-4">
             {/* Website Selector */}
-            {websites.length > 1 && (
-              <select
-                defaultValue={selectedWebsite.id}
-                className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                onChange={(e) => {
-                  window.location.href = `/dashboard/realtime?website=${e.target.value}`;
-                }}
-              >
-                {websites.map((website) => (
-                  <option key={website.id} value={website.id}>
-                    {website.name}
-                  </option>
-                ))}
-              </select>
-            )}
+            <WebsiteSelector 
+              websites={websites}
+              selectedWebsiteId={selectedWebsite.id}
+            />
 
             <a
               href="/dashboard"

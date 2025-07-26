@@ -118,7 +118,8 @@ export default function DemoPage() {
       <script
         async
         src="/tracker.js"
-        data-website-id="demo-website-id"
+        data-website-id="cmdj67aog00034qvarrmjx0tr"
+        data-debug="true"
       ></script>
     </div>
   );

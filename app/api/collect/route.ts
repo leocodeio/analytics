@@ -48,8 +48,17 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ message: "Event received" }, { status: 202 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error collecting event:", error);
+    
+    // Handle foreign key constraint error (invalid websiteId)
+    if (error.code === 'P2003') {
+      return NextResponse.json(
+        { message: "Invalid website ID" },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }
