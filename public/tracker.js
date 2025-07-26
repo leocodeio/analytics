@@ -3,7 +3,7 @@
   if (!scriptElement) return;
 
   const websiteId = scriptElement.getAttribute("data-website-id");
-  const apiEndpoint = "/api/collect"; // Relative path to our Next.js API
+  const apiEndpoint = "http://localhost:3000/api/collect"; // Relative path to our Next.js API
   const debug = scriptElement.getAttribute("data-debug") === "true";
 
   if (!websiteId) {
@@ -58,7 +58,9 @@
         fetch(apiEndpoint, {
           method: "POST",
           body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           keepalive: true,
         }).catch((error) => {
           if (debug) {

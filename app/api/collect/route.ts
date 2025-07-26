@@ -1,6 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+// Handle CORS preflight requests
+export async function OPTIONS(request: Request) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -20,7 +32,14 @@ export async function POST(request: Request) {
     if (!websiteId || !eventType || !eventName) {
       return NextResponse.json(
         { message: "Missing required event data." },
-        { status: 400 }
+        {
+          status: 400,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        }
       );
     }
 
@@ -47,21 +66,45 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ message: "Event received" }, { status: 202 });
+    return NextResponse.json(
+      { message: "Event received" },
+      {
+        status: 202,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      }
+    );
   } catch (error: any) {
     console.error("Error collecting event:", error);
-    
+
     // Handle foreign key constraint error (invalid websiteId)
-    if (error.code === 'P2003') {
+    if (error.code === "P2003") {
       return NextResponse.json(
         { message: "Invalid website ID" },
-        { status: 400 }
+        {
+          status: 400,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        }
       );
     }
-    
+
     return NextResponse.json(
       { message: "Internal Server Error" },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      }
     );
   }
 }
