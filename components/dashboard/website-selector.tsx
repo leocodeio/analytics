@@ -27,7 +27,7 @@ export function WebsiteSelector({ websites, selectedWebsiteId }: WebsiteSelector
     <select
       value={selectedWebsiteId}
       onChange={(e) => handleWebsiteChange(e.target.value)}
-      className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+      className="px-3 py-2 border border-border rounded-md bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
     >
       {websites.map((website) => (
         <option key={website.id} value={website.id}>

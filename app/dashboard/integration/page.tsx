@@ -21,8 +21,8 @@ export default async function IntegrationPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Integration Guide</h1>
-        <p className="text-gray-600 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">Integration Guide</h1>
+        <p className="text-muted-foreground mt-2">
           Learn how to add analytics tracking to your website
         </p>
       </div>
@@ -45,11 +45,11 @@ export default async function IntegrationPage() {
       ) : (
         <div className="space-y-8">
           {/* Step 1: Copy the Script */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-4">
               Step 1: Copy the Tracking Script
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-muted-foreground mb-4">
               Add this script to the &lt;head&gt; section of your website, just
               before the closing &lt;/head&gt; tag:
             </p>
@@ -63,13 +63,13 @@ export default async function IntegrationPage() {
           </div>
 
           {/* Step 2: Custom Events */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-4">
               Step 2: Track Custom Events (Optional)
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-muted-foreground mb-4">
               Add the{" "}
-              <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+              <code className="bg-secondary px-2 py-1 rounded text-sm">
                 data-analytics
               </code>{" "}
               attribute to any element you want to track:
@@ -77,11 +77,11 @@ export default async function IntegrationPage() {
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-lg font-medium text-foreground mb-2">
                   Button Clicks
                 </h3>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <pre className="text-sm text-gray-800">
+                <div className="bg-secondary rounded-lg p-4">
+                  <pre className="text-sm text-secondary-foreground">
                     <code>{`<button data-analytics="signup-button">Sign Up</button>
 <button data-analytics="download-demo">Download</button>`}</code>
                   </pre>
@@ -89,11 +89,11 @@ export default async function IntegrationPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-lg font-medium text-foreground mb-2">
                   Link Clicks
                 </h3>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <pre className="text-sm text-gray-800">
+                <div className="bg-secondary rounded-lg p-4">
+                  <pre className="text-sm text-secondary-foreground">
                     <code>{`<a href="/pricing" data-analytics="pricing-link">View Pricing</a>
 <a href="/contact" data-analytics="contact-link">Contact Us</a>`}</code>
                   </pre>
@@ -101,11 +101,11 @@ export default async function IntegrationPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-lg font-medium text-foreground mb-2">
                   Form Submissions
                 </h3>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <pre className="text-sm text-gray-800">
+                <div className="bg-secondary rounded-lg p-4">
+                  <pre className="text-sm text-secondary-foreground">
                     <code>{`<form data-analytics="newsletter-signup">
   <input type="email" placeholder="Your email" />
   <button type="submit">Subscribe</button>
@@ -117,15 +117,15 @@ export default async function IntegrationPage() {
           </div>
 
           {/* Step 3: Verify */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-4">
               Step 3: Verify Installation
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-muted-foreground mb-4">
               After adding the script to your website:
             </p>
 
-            <ol className="list-decimal list-inside space-y-2 text-gray-700">
+            <ol className="list-decimal list-inside space-y-2 text-foreground">
               <li>Visit your website in a new browser tab</li>
               <li>Check your browser&apos;s developer console for any errors</li>
               <li>
@@ -140,7 +140,7 @@ export default async function IntegrationPage() {
               </li>
               <li>
                 Click on elements with{" "}
-                <code className="bg-gray-100 px-1 rounded text-sm">
+                <code className="bg-secondary px-1 rounded text-sm">
                   data-analytics
                 </code>{" "}
                 attributes to test custom events

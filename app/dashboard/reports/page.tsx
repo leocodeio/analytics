@@ -95,10 +95,10 @@ export default async function ReportsPage({
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
             Advanced Reports
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-muted-foreground mb-8">
             Get detailed insights about your website performance.
           </p>
           <a
@@ -129,10 +129,10 @@ export default async function ReportsPage({
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-foreground">
               Advanced Reports
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-muted-foreground mt-2">
               Detailed analytics for {selectedWebsite.name}
             </p>
           </div>
@@ -141,7 +141,7 @@ export default async function ReportsPage({
             {websites.length > 1 && (
               <select
                 defaultValue={selectedWebsite.id}
-                className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="px-3 py-2 border border-border rounded-md bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
               >
                 {websites.map((website) => (
                   <option key={website.id} value={website.id}>
@@ -154,7 +154,7 @@ export default async function ReportsPage({
             {/* Period Selector */}
             <select
               defaultValue={period}
-              className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="px-3 py-2 border border-border rounded-md bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
             >
               <option value="24h">Last 24 hours</option>
               <option value="7d">Last 7 days</option>
@@ -167,19 +167,19 @@ export default async function ReportsPage({
 
       <div className="space-y-8">
         {/* Conversion Funnel */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+        <div className="bg-card border border-border rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-foreground mb-6">
             Conversion Funnel
           </h2>
           <div className="space-y-4">
             {advancedData.conversionFunnel.map((step, index) => (
               <div key={step.step} className="relative">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-foreground">
                     {index + 1}. {step.step}
                   </span>
                   <div className="text-right">
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-muted-foreground">
                       {step.visitors.toLocaleString()} visitors
                     </span>
                     <span className="ml-2 text-sm font-medium text-indigo-600">
@@ -187,7 +187,7 @@ export default async function ReportsPage({
                     </span>
                   </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="w-full bg-secondary rounded-full h-3">
                   <div
                     className="bg-indigo-500 h-3 rounded-full transition-all duration-500"
                     style={{ width: `${step.conversionRate}%` }}
@@ -195,7 +195,7 @@ export default async function ReportsPage({
                 </div>
                 {index < advancedData.conversionFunnel.length - 1 && (
                   <div className="flex justify-center mt-2">
-                    <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-muted-foreground" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -207,23 +207,23 @@ export default async function ReportsPage({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* User Flow */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-6">
               Top User Flows
             </h2>
             <div className="space-y-4">
               {advancedData.userFlow.map((flow, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-secondary rounded-lg">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-600 truncate">{flow.from}</span>
-                      <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <span className="text-sm text-muted-foreground truncate">{flow.from}</span>
+                      <svg className="w-4 h-4 text-muted-foreground" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-sm text-gray-600 truncate">{flow.to}</span>
+                      <span className="text-sm text-muted-foreground truncate">{flow.to}</span>
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-gray-900 ml-4">
+                  <span className="text-sm font-medium text-foreground ml-4">
                     {flow.count} users
                   </span>
                 </div>
@@ -232,22 +232,22 @@ export default async function ReportsPage({
           </div>
 
           {/* Session Duration */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-foreground mb-6">
               Session Duration
             </h2>
             <div className="space-y-4">
               {advancedData.sessionDuration.map((duration) => (
                 <div key={duration.range} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700">{duration.range}</span>
+                  <span className="text-sm text-foreground">{duration.range}</span>
                   <div className="flex items-center space-x-3 flex-1 ml-4">
-                    <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="flex-1 bg-secondary rounded-full h-2">
                       <div
                         className="bg-purple-500 h-2 rounded-full"
                         style={{ width: `${duration.percentage}%` }}
                       ></div>
                     </div>
-                    <span className="text-sm text-gray-600 w-12 text-right">
+                    <span className="text-sm text-muted-foreground w-12 text-right">
                       {duration.percentage}%
                     </span>
                   </div>
@@ -258,28 +258,28 @@ export default async function ReportsPage({
         </div>
 
         {/* Geographic Distribution */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+        <div className="bg-card border border-border rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-foreground mb-6">
             Geographic Distribution
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {advancedData.geographicData.map((country) => (
-              <div key={country.country} className="p-4 border border-gray-200 rounded-lg">
+              <div key={country.country} className="p-4 border border-border rounded-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-foreground">
                     {country.country}
                   </span>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-muted-foreground">
                     {country.percentage}%
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-secondary rounded-full h-2">
                   <div
                     className="bg-green-500 h-2 rounded-full"
                     style={{ width: `${country.percentage}%` }}
                   ></div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {country.count.toLocaleString()} visitors
                 </p>
               </div>
@@ -288,11 +288,11 @@ export default async function ReportsPage({
         </div>
 
         {/* Export Options */}
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-secondary border border-border rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Export Data
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-muted-foreground mb-4">
             Download your analytics data for further analysis or reporting.
           </p>
           <div className="flex space-x-4">

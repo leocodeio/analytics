@@ -1,3 +1,5 @@
+import { Eye, Target, FileText } from "lucide-react";
+
 interface Event {
   id: string;
   eventType: string;
@@ -14,7 +16,7 @@ interface RecentEventsProps {
 export function RecentEvents({ events }: RecentEventsProps) {
   if (!events || events.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">No recent events</div>
+      <div className="text-center py-8 text-muted-foreground">No recent events</div>
     );
   }
 
@@ -30,11 +32,11 @@ export function RecentEvents({ events }: RecentEventsProps) {
   const getEventIcon = (eventType: string) => {
     switch (eventType) {
       case "pageview":
-        return "👁️";
+        return <Eye className="w-4 h-4" />;
       case "custom":
-        return "🎯";
+        return <Target className="w-4 h-4" />;
       default:
-        return "📝";
+        return <FileText className="w-4 h-4" />;
     }
   };
 
@@ -43,22 +45,22 @@ export function RecentEvents({ events }: RecentEventsProps) {
       {events.map((event) => (
         <div
           key={event.id}
-          className="flex items-center p-3 bg-gray-50 rounded-lg"
+          className="flex items-center p-3 bg-secondary rounded-lg"
         >
-          <div className="flex-shrink-0 mr-3">
-            <span className="text-lg">{getEventIcon(event.eventType)}</span>
+          <div className="flex-shrink-0 mr-3 text-muted-foreground">
+            {getEventIcon(event.eventType)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-foreground truncate">
               {event.eventName}
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               {event.websiteName} • {event.eventType}
               {event.path && ` • ${event.path}`}
             </p>
           </div>
           <div className="flex-shrink-0">
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-muted-foreground">
               {formatTime(event.createdAt)}
             </span>
           </div>

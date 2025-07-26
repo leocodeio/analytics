@@ -27,19 +27,19 @@ export function IntegrationScriptCopy({ websiteId, websiteName }: IntegrationScr
   };
 
   return (
-    <div className="bg-gray-50 rounded-lg p-4">
+    <div className="bg-secondary rounded-lg p-4">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-sm font-medium text-secondary-foreground">
           Tracking script for {websiteName}
         </span>
         <button
           onClick={handleCopy}
-          className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+          className="text-sm text-primary hover:text-primary/80 font-medium"
         >
           {copied ? "Copied!" : "Copy"}
         </button>
       </div>
-      <pre className="text-sm text-gray-800 overflow-x-auto">
+      <pre className="text-sm text-secondary-foreground overflow-x-auto">
         <code>{scriptCode}</code>
       </pre>
     </div>

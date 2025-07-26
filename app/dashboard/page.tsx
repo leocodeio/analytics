@@ -38,10 +38,10 @@ export default async function DashboardPage({
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
             Welcome to Analytics
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-muted-foreground mb-8">
             Get started by adding your first website to track.
           </p>
           <a
@@ -72,10 +72,10 @@ export default async function DashboardPage({
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-foreground">
               {selectedWebsite.name}
             </h1>
-            <p className="text-gray-600 mt-1">{selectedWebsite.domain}</p>
+            <p className="text-muted-foreground mt-1">{selectedWebsite.domain}</p>
           </div>
           <div className="flex items-center space-x-4">
             <DashboardFilters
@@ -107,9 +107,9 @@ export default async function DashboardPage({
       {/* Stats Cards */}
       <div className="mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-card p-6 rounded-lg shadow border">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-blue-100 text-blue-600">
+              <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -131,17 +131,17 @@ export default async function DashboardPage({
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Page Views</p>
-                <p className="text-2xl font-semibold text-gray-900">
+                <p className="text-sm font-medium text-muted-foreground">Page Views</p>
+                <p className="text-2xl font-semibold text-foreground">
                   {analyticsData.totalPageViews.toLocaleString()}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-card p-6 rounded-lg shadow border">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-green-100 text-green-600">
+              <div className="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -157,19 +157,19 @@ export default async function DashboardPage({
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-sm font-medium text-muted-foreground">
                   Unique Visitors
                 </p>
-                <p className="text-2xl font-semibold text-gray-900">
+                <p className="text-2xl font-semibold text-foreground">
                   {analyticsData.uniqueVisitors.toLocaleString()}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-card p-6 rounded-lg shadow border">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-yellow-100 text-yellow-600">
+              <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -185,17 +185,17 @@ export default async function DashboardPage({
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Bounce Rate</p>
-                <p className="text-2xl font-semibold text-gray-900">
+                <p className="text-sm font-medium text-muted-foreground">Bounce Rate</p>
+                <p className="text-2xl font-semibold text-foreground">
                   {analyticsData.bounceRate.toFixed(1)}%
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-card p-6 rounded-lg shadow border">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-purple-100 text-purple-600">
+              <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400">
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -211,10 +211,10 @@ export default async function DashboardPage({
                 </svg>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-sm font-medium text-muted-foreground">
                   Avg. Session
                 </p>
-                <p className="text-2xl font-semibold text-gray-900">
+                <p className="text-2xl font-semibold text-foreground">
                   {Math.floor(analyticsData.averageSessionDuration / 60)}m{" "}
                   {analyticsData.averageSessionDuration % 60}s
                 </p>
@@ -227,8 +227,8 @@ export default async function DashboardPage({
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Page Views Chart */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card p-6 rounded-lg shadow border">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Page Views Over Time
           </h2>
           <PageViewsChart
@@ -240,8 +240,8 @@ export default async function DashboardPage({
         </div>
 
         {/* Top Pages */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card p-6 rounded-lg shadow border">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Top Pages
           </h2>
           <div className="space-y-3">
@@ -251,14 +251,14 @@ export default async function DashboardPage({
                 className="flex items-center justify-between"
               >
                 <div className="flex items-center min-w-0">
-                  <span className="text-sm font-medium text-gray-500 mr-3">
+                  <span className="text-sm font-medium text-muted-foreground mr-3">
                     {index + 1}
                   </span>
-                  <span className="text-sm text-gray-900 truncate">
+                  <span className="text-sm text-foreground truncate">
                     {page.path || "/"}
                   </span>
                 </div>
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-foreground">
                   {page.views.toLocaleString()}
                 </span>
               </div>
@@ -267,8 +267,8 @@ export default async function DashboardPage({
         </div>
 
         {/* Device Breakdown */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card p-6 rounded-lg shadow border">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Device Breakdown
           </h2>
           <div className="space-y-3">
@@ -286,15 +286,15 @@ export default async function DashboardPage({
                 >
                   <div className="flex items-center">
                     <div className="w-4 h-4 rounded-full bg-indigo-500 mr-3"></div>
-                    <span className="text-sm text-gray-900">
+                    <span className="text-sm text-foreground">
                       {device.device}
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <span className="text-sm text-gray-500 mr-2">
+                    <span className="text-sm text-muted-foreground mr-2">
                       {percentage.toFixed(1)}%
                     </span>
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-foreground">
                       {device.count.toLocaleString()}
                     </span>
                   </div>
@@ -305,8 +305,8 @@ export default async function DashboardPage({
         </div>
 
         {/* Top Referrers */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card p-6 rounded-lg shadow border">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Top Referrers
           </h2>
           <div className="space-y-3">
@@ -316,14 +316,14 @@ export default async function DashboardPage({
                 className="flex items-center justify-between"
               >
                 <div className="flex items-center min-w-0">
-                  <span className="text-sm font-medium text-gray-500 mr-3">
+                  <span className="text-sm font-medium text-muted-foreground mr-3">
                     {index + 1}
                   </span>
-                  <span className="text-sm text-gray-900 truncate">
+                  <span className="text-sm text-foreground truncate">
                     {referrer.referrer || "Direct"}
                   </span>
                 </div>
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-foreground">
                   {referrer.count.toLocaleString()}
                 </span>
               </div>
@@ -333,8 +333,8 @@ export default async function DashboardPage({
       </div>
 
       {/* Recent Events */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">
+      <div className="bg-card p-6 rounded-lg shadow border">
+        <h2 className="text-xl font-semibold text-foreground mb-4">
           Recent Activity
         </h2>
         <RecentEvents events={realtimeData.recentEvents} />

@@ -33,45 +33,45 @@ export default async function SettingsPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-        <p className="text-gray-600 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+        <p className="text-muted-foreground mt-2">
           Manage your account and website settings
         </p>
       </div>
 
       <div className="space-y-8">
         {/* Profile Section */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card border border-border rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Profile Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 Name
               </label>
-              <div className="p-3 bg-gray-50 rounded-md text-gray-900">
+              <div className="p-3 bg-secondary rounded-md text-foreground">
                 {user.name || "Not provided"}
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 Email
               </label>
-              <div className="p-3 bg-gray-50 rounded-md text-gray-900">
+              <div className="p-3 bg-secondary rounded-md text-foreground">
                 {user.email}
               </div>
             </div>
           </div>
-          <p className="text-sm text-gray-500 mt-4">
+          <p className="text-sm text-muted-foreground mt-4">
             Profile information is managed through your Google account.
           </p>
         </div>
 
         {/* Website Management */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <div className="bg-card border border-border rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-foreground">
               Website Statistics
             </h2>
             <a
@@ -83,7 +83,7 @@ export default async function SettingsPage() {
           </div>
 
           {user.websites.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-muted-foreground">
               <p className="mb-4">No websites added yet</p>
               <a
                 href="/dashboard/websites"
@@ -97,17 +97,17 @@ export default async function SettingsPage() {
               {user.websites.map((website) => (
                 <div
                   key={website.id}
-                  className="border border-gray-200 rounded-lg p-4"
+                  className="border border-border rounded-lg p-4"
                 >
-                  <h3 className="font-medium text-gray-900 mb-1">
+                  <h3 className="font-medium text-foreground mb-1">
                     {website.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">{website.domain}</p>
+                  <p className="text-sm text-muted-foreground mb-2">{website.domain}</p>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-500">
+                    <span className="text-muted-foreground">
                       {website._count.events.toLocaleString()} events
                     </span>
-                    <span className="text-gray-500">
+                    <span className="text-muted-foreground">
                       {new Date(website.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -118,25 +118,25 @@ export default async function SettingsPage() {
         </div>
 
         {/* Data Management */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card border border-border rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Data Management
           </h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
               <div>
-                <h3 className="font-medium text-gray-900">Data Retention</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-medium text-foreground">Data Retention</h3>
+                <p className="text-sm text-muted-foreground">
                   Analytics data is retained for 13 months by default
                 </p>
               </div>
-              <span className="text-sm text-gray-500">13 months</span>
+              <span className="text-sm text-muted-foreground">13 months</span>
             </div>
 
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
               <div>
-                <h3 className="font-medium text-gray-900">Export Data</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-medium text-foreground">Export Data</h3>
+                <p className="text-sm text-muted-foreground">
                   Export your analytics data in CSV format
                 </p>
               </div>
@@ -148,15 +148,15 @@ export default async function SettingsPage() {
         </div>
 
         {/* Privacy & Security */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card border border-border rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Privacy & Security
           </h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
               <div>
-                <h3 className="font-medium text-gray-900">Data Processing</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-medium text-foreground">Data Processing</h3>
+                <p className="text-sm text-muted-foreground">
                   All data is processed in compliance with GDPR and privacy laws
                 </p>
               </div>
@@ -165,12 +165,12 @@ export default async function SettingsPage() {
               </span>
             </div>
 
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
               <div>
-                <h3 className="font-medium text-gray-900">
+                <h3 className="font-medium text-foreground">
                   IP Address Anonymization
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   IP addresses are anonymized before storage
                 </p>
               </div>
@@ -187,7 +187,7 @@ export default async function SettingsPage() {
             Danger Zone
           </h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg bg-white">
+            <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg bg-card">
               <div>
                 <h3 className="font-medium text-red-900">Delete Account</h3>
                 <p className="text-sm text-red-600">

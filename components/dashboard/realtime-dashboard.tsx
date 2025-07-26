@@ -70,135 +70,134 @@ export function RealtimeDashboard({
     <div className="space-y-6">
       {/* Connection Status */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-gray-900">Live Activity</h2>
+        <h2 className="text-xl font-semibold text-foreground">Live Activity</h2>
         <div className="flex items-center space-x-2">
           <div
             className={`w-2 h-2 rounded-full ${
               isConnected ? "bg-green-500 animate-pulse" : "bg-red-500"
             }`}
           ></div>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-muted-foreground">
             {isConnected ? "Connected" : "Disconnected"}
           </span>
         </div>
       </div>
 
-      {/* Active Visitors */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-medium text-gray-900">
-              Active Visitors
-            </h3>
-            <p className="text-3xl font-bold text-green-600 mt-2">
-              {data.activeVisitors}
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-600">New in last minute</p>
-            <p className="text-2xl font-bold text-blue-600 mt-1">
-              +{data.newVisitors}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Events Stream */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">
-          Recent Events
-        </h3>
-        <div className="space-y-3 max-h-80 overflow-y-auto">
-          {data.recentEvents.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              <p>No recent activity</p>
-              <p className="text-sm mt-2">
-                Events will appear here as users interact with your website
+        {/* Active Visitors */}
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950/30 dark:to-blue-950/30 border border-green-200 dark:border-green-800 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-medium text-foreground">
+                Active Visitors
+              </h3>
+              <p className="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">
+                {data.activeVisitors}
               </p>
             </div>
-          ) : (
-            data.recentEvents.map((event) => (
-              <div
-                key={event.id}
-                className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                <div className="flex-shrink-0 mr-3">
-                  <span className="text-lg">
-                    {getEventIcon(event.eventType)}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      {event.eventName || event.path || "Page View"}
-                    </p>
-                    <p className="text-xs text-gray-500 ml-2">
-                      {formatTime(event.createdAt)}
+            <div className="text-right">
+              <p className="text-sm text-muted-foreground">New in last minute</p>
+              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
+                +{data.newVisitors}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Events Stream */}
+        <div className="bg-card border border-border rounded-lg p-6">
+          <h3 className="text-lg font-medium text-foreground mb-4">
+            Recent Events
+          </h3>
+          <div className="space-y-3 max-h-80 overflow-y-auto">
+            {data.recentEvents.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <p>No recent activity</p>
+                <p className="text-sm mt-2">
+                  Events will appear here as users interact with your website
+                </p>
+              </div>
+            ) : (
+              data.recentEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="flex items-center p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors"
+                >
+                  <div className="flex-shrink-0 mr-3">
+                    <span className="text-lg">
+                      {getEventIcon(event.eventType)}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {event.eventName || event.path || "Page View"}
+                      </p>
+                      <p className="text-xs text-muted-foreground ml-2">
+                        {formatTime(event.createdAt)}
+                      </p>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {event.eventType === "pageview"
+                        ? "Page View"
+                        : "Custom Event"}
+                      {event.path && ` • ${event.path}`}
                     </p>
                   </div>
-                  <p className="text-xs text-gray-600">
-                    {event.eventType === "pageview"
-                      ? "Page View"
-                      : "Custom Event"}
-                    {event.path && ` • ${event.path}`}
-                  </p>
                 </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Activity Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-card border border-border rounded-lg p-4">
+            <div className="flex items-center">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-3">
+                <span className="text-lg">📊</span>
               </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* Activity Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg mr-3">
-              <span className="text-lg">📊</span>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Page Views</p>
-              <p className="text-lg font-semibold text-gray-900">
-                {
-                  data.recentEvents.filter((e) => e.eventType === "pageview")
-                    .length
-                }
-              </p>
+              <div>
+                <p className="text-sm text-muted-foreground">Page Views</p>
+                <p className="text-lg font-semibold text-foreground">
+                  {
+                    data.recentEvents.filter((e) => e.eventType === "pageview")
+                      .length
+                  }
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <div className="flex items-center">
-            <div className="p-2 bg-purple-100 rounded-lg mr-3">
-              <span className="text-lg">🎯</span>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Custom Events</p>
-              <p className="text-lg font-semibold text-gray-900">
-                {
-                  data.recentEvents.filter((e) => e.eventType === "custom")
-                    .length
-                }
-              </p>
+          <div className="bg-card border border-border rounded-lg p-4">
+            <div className="flex items-center">
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg mr-3">
+                <span className="text-lg">🎯</span>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Custom Events</p>
+                <p className="text-lg font-semibold text-foreground">
+                  {
+                    data.recentEvents.filter((e) => e.eventType === "custom")
+                      .length
+                  }
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-4">
-          <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg mr-3">
-              <span className="text-lg">⚡</span>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Events/Min</p>
-              <p className="text-lg font-semibold text-gray-900">
-                {Math.round(data.recentEvents.length / 5)}
-              </p>
+          <div className="bg-card border border-border rounded-lg p-4">
+            <div className="flex items-center">
+              <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg mr-3">
+                <span className="text-lg">⚡</span>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Events/Min</p>
+                <p className="text-lg font-semibold text-foreground">
+                  {Math.round(data.recentEvents.length / 5)}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </div>    </div>
   );
 }

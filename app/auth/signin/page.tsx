@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -21,6 +22,9 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="max-w-md w-full">
         <Card>
           <CardHeader className="text-center">

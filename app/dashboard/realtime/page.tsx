@@ -29,14 +29,14 @@ export default async function RealtimePage({
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
             Real-time Analytics
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-muted-foreground mb-8">
             Monitor live visitor activity on your websites.
           </p>
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-md mx-auto">
-            <p className="text-yellow-800 mb-4">
+          <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 max-w-md mx-auto">
+            <p className="text-yellow-800 dark:text-yellow-200 mb-4">
               You need to add a website first to view real-time analytics.
             </p>
             <a
@@ -65,10 +65,10 @@ export default async function RealtimePage({
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-foreground">
               Real-time Analytics
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-muted-foreground mt-2">
               Monitor live activity on {selectedWebsite.name}
             </p>
           </div>
@@ -81,7 +81,7 @@ export default async function RealtimePage({
 
             <a
               href="/dashboard"
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded-md font-medium transition-colors"
+              className="px-3 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground text-sm rounded-md font-medium transition-colors"
             >
               Back to Dashboard
             </a>
