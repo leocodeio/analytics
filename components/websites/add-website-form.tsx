@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function AddWebsiteForm() {
   const [name, setName] = useState("");
@@ -40,62 +44,47 @@ export function AddWebsiteForm() {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-lg font-medium text-gray-900 mb-6">
-        Add New Website
-      </h2>
+    <Card>
+      <CardHeader>
+        <CardTitle>Add New Website</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {error && (
+          <div className="mb-4 bg-destructive/15 border border-destructive/50 text-destructive px-4 py-3 rounded">
+            {error}
+          </div>
+        )}
 
-      {error && (
-        <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {error}
-        </div>
-      )}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">Website Name</Label>
+            <Input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="My Website"
+              required
+            />
+          </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Website Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="My Website"
-            required
-          />
-        </div>
+          <div className="space-y-2">
+            <Label htmlFor="domain">Domain</Label>
+            <Input
+              type="url"
+              id="domain"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              placeholder="https://example.com"
+              required
+            />
+          </div>
 
-        <div>
-          <label
-            htmlFor="domain"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Domain
-          </label>
-          <input
-            type="url"
-            id="domain"
-            value={domain}
-            onChange={(e) => setDomain(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="https://example.com"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-        >
-          {loading ? "Adding..." : "Add Website"}
-        </button>
-      </form>
-    </div>
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? "Adding..." : "Add Website"}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

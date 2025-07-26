@@ -182,7 +182,7 @@ export default function Home() {
                     </h3>
                   </div>
                   <p className="text-gray-600 mb-4">
-                    We'll generate a unique tracking script for your website.
+                    We&apos;ll generate a unique tracking script for your website.
                     Just copy and paste it.
                   </p>
                   <div className="bg-gray-50 p-4 rounded-lg">
@@ -220,7 +220,7 @@ export default function Home() {
                         <div>{"</script>"}</div>
                       </div>
                       <p className="text-xs text-gray-500 mt-2">
-                        Paste this in your website's &lt;head&gt; section
+                        Paste this in your website&apos;s &lt;head&gt; section
                       </p>
                     </div>
                   </div>
@@ -239,7 +239,7 @@ export default function Home() {
                     </h3>
                   </div>
                   <p className="text-gray-600 mb-4">
-                    Once installed, you'll immediately start seeing visitor data
+                    Once installed, you&apos;ll immediately start seeing visitor data
                     in your dashboard.
                   </p>
                   <div className="flex space-x-4 text-sm">

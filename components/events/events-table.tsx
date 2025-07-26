@@ -1,3 +1,14 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
 interface Event {
   id: string;
   eventType: string;
@@ -18,14 +29,16 @@ interface EventsTableProps {
 export function EventsTable({ events }: EventsTableProps) {
   if (events.length === 0) {
     return (
-      <div className="text-center py-12">
-        <h3 className="text-lg font-medium text-gray-900 mb-2">
-          No events yet
-        </h3>
-        <p className="text-gray-600">
-          Events will appear here once your tracking script is installed.
-        </p>
-      </div>
+      <Card>
+        <CardContent className="py-12">
+          <div className="text-center">
+            <CardTitle className="mb-2">No events yet</CardTitle>
+            <p className="text-muted-foreground">
+              Events will appear here once your tracking script is installed.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -62,67 +75,52 @@ export function EventsTable({ events }: EventsTableProps) {
   };
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Event
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Website
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Path
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Browser
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Screen
-            </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Time
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {events.map((event) => (
-            <tr key={event.id}>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="flex items-center">
-                  <span className="mr-2">{getEventIcon(event.eventType)}</span>
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">
-                      {event.eventName}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {event.eventType}
+    <Card>
+      <CardHeader>
+        <CardTitle>Recent Events</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Event</TableHead>
+              <TableHead>Website</TableHead>
+              <TableHead>Path</TableHead>
+              <TableHead>Browser</TableHead>
+              <TableHead>Screen</TableHead>
+              <TableHead>Time</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {events.map((event) => (
+              <TableRow key={event.id}>
+                <TableCell>
+                  <div className="flex items-center">
+                    <span className="mr-2">{getEventIcon(event.eventType)}</span>
+                    <div>
+                      <div className="font-medium">{event.eventName}</div>
+                      <Badge variant="secondary" className="text-xs">
+                        {event.eventType}
+                      </Badge>
                     </div>
                   </div>
-                </div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {event.websiteName}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {event.path || "-"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {getBrowser(event.userAgent || null)}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {event.screenWidth && event.screenHeight
-                  ? `${event.screenWidth}×${event.screenHeight}`
-                  : "-"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {formatTime(event.createdAt)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                </TableCell>
+                <TableCell>{event.websiteName}</TableCell>
+                <TableCell>{event.path || "-"}</TableCell>
+                <TableCell>{getBrowser(event.userAgent || null)}</TableCell>
+                <TableCell>
+                  {event.screenWidth && event.screenHeight
+                    ? `${event.screenWidth}×${event.screenHeight}`
+                    : "-"}
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {formatTime(event.createdAt)}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 }

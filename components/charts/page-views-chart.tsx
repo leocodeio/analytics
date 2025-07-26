@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface PageViewsChartProps {
   data: Array<{
@@ -21,29 +22,56 @@ interface PageViewsChartProps {
 export function PageViewsChart({ data }: PageViewsChartProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-gray-500">
-        No data to display
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Page Views</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64 flex items-center justify-center text-muted-foreground">
+            No data to display
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="views"
-            stroke="#4f46e5"
-            strokeWidth={2}
-            name="Page Views"
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Page Views</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              <XAxis 
+                dataKey="date" 
+                className="text-muted-foreground"
+                fontSize={12}
+              />
+              <YAxis 
+                className="text-muted-foreground"
+                fontSize={12}
+              />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--background))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '6px',
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="views"
+                stroke="hsl(var(--primary))"
+                strokeWidth={2}
+                name="Page Views"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

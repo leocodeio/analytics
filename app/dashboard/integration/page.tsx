@@ -150,7 +150,7 @@ export default async function IntegrationPage() {
 
             <ol className="list-decimal list-inside space-y-2 text-gray-700">
               <li>Visit your website in a new browser tab</li>
-              <li>Check your browser's developer console for any errors</li>
+              <li>Check your browser&apos;s developer console for any errors</li>
               <li>
                 Return to your{" "}
                 <a

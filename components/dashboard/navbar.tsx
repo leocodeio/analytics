@@ -1,49 +1,43 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const { data: session } = useSession();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-sm border-b">
+    <nav className="bg-background border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold">
               Analytics Dashboard
             </h1>
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="relative">
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <div className="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-medium">
-                  {session?.user?.name?.charAt(0) || "U"}
-                </div>
-                <span className="ml-2 text-gray-700">
-                  {session?.user?.name}
-                </span>
-              </button>
-
-              {dropdownOpen && (
-                <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                  <div className="py-1">
-                    <button
-                      onClick={() => signOut()}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Sign out
-                    </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center space-x-2">
+                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-medium">
+                    {session?.user?.name?.charAt(0) || "U"}
                   </div>
-                </div>
-              )}
-            </div>
+                  <span>{session?.user?.name}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => signOut()}>
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
