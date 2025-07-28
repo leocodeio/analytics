@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      async
+      src="http://localhost:3000/tracker.js"
+      data-website-id="cmdl9yk9n00064q848fwsc0b4"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CORS Test</title>
+  </head>
+
+  <body>
+    <h1>CORS Test Page</h1>
+    <p>This page tests cross-origin requests to the analytics API.</p>
+
+    <div id="websiteInfo">
+      <p>Loading website information...</p>
+    </div>
+
+    <button id="testButton">Test CORS Request (No Credentials)</button>
+    <button id="testButtonWithCredentials" >
+      Test CORS Request (With Credentials)
+    </button>
+
+    <div id="result"></div>
+
+    <script>
+      let validWebsiteId = "cmdl9yk9n00064q848fwsc0b4"; // Default fallback
+
+      // Fetch available websites on page load
+      async function loadWebsites() {
+        try {
+          const response = await fetch("http://localhost:3000/api/debug/websites");
+          const data = await response.json();
+          
+          if (data.websites && data.websites.length > 0) {
+            validWebsiteId = data.websites[0].id;
+            document.getElementById("websiteInfo").innerHTML = 
+              `<p>Using website: <strong>${data.websites[0].name}</strong> (${data.websites[0].domain})<br>ID: <code>${validWebsiteId}</code></p>`;
+          }
+        } catch (error) {
+          console.log("Could not fetch websites, using fallback ID");
+        }
+      }
+
+      function createTestPayload() {
+        return {
+          websiteId: validWebsiteId, // Use dynamic website ID
+          sessionId: "test-session-id",
+          eventType: "pageview",
+          eventName: "/test-page",
+          path: "/test-page",
+          referrer: document.referrer,
+          screenWidth: window.screen.width,
+          screenHeight: window.screen.height,
+          timestamp: new Date().toISOString(),
+          isFirstVisit: true,
+        };
+      }
+
+      async function testCORS(withCredentials = false) {
+        const resultDiv = document.getElementById("result");
+        const type = withCredentials
+          ? "with credentials"
+          : "without credentials";
+
+        try {
+          const options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(createTestPayload()),
+          };
+
+          if (withCredentials) {
+            options.credentials = "include";
+          }
+
+          const response = await fetch(
+            "http://localhost:3000/api/collect",
+            options
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            resultDiv.innerHTML = `<p style="color: green;">✅ CORS request ${type} successful: ${JSON.stringify(
+              data
+            )}</p>`;
+          } else {
+            const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+            resultDiv.innerHTML = `<p style="color: orange;">⚠️ Request ${type} failed with status: ${response.status}<br>Error: ${JSON.stringify(errorData)}</p>`;
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `<p style="color: red;">❌ CORS request ${type} failed: ${error.message}</p>`;
+        }
+      }
+
+      document
+        .getElementById("testButton")
+        .addEventListener("click", () => testCORS(false));
+      document
+        .getElementById("testButtonWithCredentials")
+        .addEventListener("click", () => testCORS(true));
+
+      // Load websites when page loads
+      loadWebsites();
+    </script>
+  </body>
+</html>

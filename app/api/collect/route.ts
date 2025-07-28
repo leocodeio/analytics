@@ -1,18 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-// Handle CORS preflight requests
-export async function OPTIONS(request: Request) {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
-}
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -29,17 +17,34 @@ export async function POST(request: Request) {
       city,
     } = body;
 
+    // Validate required fields
     if (!websiteId || !eventType || !eventName) {
       return NextResponse.json(
-        { message: "Missing required event data." },
-        {
-          status: 400,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
-          },
-        }
+        { 
+          message: "Missing required event data",
+          missing: {
+            websiteId: !websiteId,
+            eventType: !eventType,
+            eventName: !eventName
+          }
+        },
+        { status: 400 }
+      );
+    }
+
+    // Verify website exists before creating event
+    const website = await prisma.website.findUnique({
+      where: { id: websiteId }
+    });
+
+    if (!website) {
+      return NextResponse.json(
+        { 
+          message: "Website not found", 
+          websiteId,
+          hint: "Please check that the website ID is correct and the website is registered in the system"
+        },
+        { status: 404 }
       );
     }
 
@@ -67,44 +72,37 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(
-      { message: "Event received" },
-      {
-        status: 202,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
-      }
+      { message: "Event received successfully" },
+      { status: 202 }
     );
   } catch (error: any) {
     console.error("Error collecting event:", error);
 
-    // Handle foreign key constraint error (invalid websiteId)
+    // Handle foreign key constraint error (backup check)
     if (error.code === "P2003") {
       return NextResponse.json(
-        { message: "Invalid website ID" },
-        {
-          status: 400,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
-          },
-        }
+        { 
+          message: "Invalid website ID - database constraint violation",
+          error: "The provided website ID does not exist in the database"
+        },
+        { status: 400 }
+      );
+    }
+
+    // Handle JSON parsing errors
+    if (error instanceof SyntaxError) {
+      return NextResponse.json(
+        { message: "Invalid JSON format in request body" },
+        { status: 400 }
       );
     }
 
     return NextResponse.json(
-      { message: "Internal Server Error" },
-      {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
-      }
+      { 
+        message: "Internal Server Error",
+        error: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
+      },
+      { status: 500 }
     );
   }
 }

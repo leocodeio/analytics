@@ -3,7 +3,10 @@
   if (!scriptElement) return;
 
   const websiteId = scriptElement.getAttribute("data-website-id");
-  const apiEndpoint = "http://localhost:3000/api/collect"; // Relative path to our Next.js API
+  // Use the script's origin as the API endpoint
+  const apiEndpoint = scriptElement.getAttribute("data-api-endpoint") || 
+    (scriptElement.src ? new URL(scriptElement.src).origin + "/api/collect" : 
+    window.location.origin + "/api/collect");
   const debug = scriptElement.getAttribute("data-debug") === "true";
 
   if (!websiteId) {
@@ -62,6 +65,7 @@
             "Content-Type": "application/json",
           },
           keepalive: true,
+          credentials: "omit", // Explicitly avoid sending credentials for analytics
         }).catch((error) => {
           if (debug) {
             console.error("Analytics error:", error);

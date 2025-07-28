@@ -13,7 +13,8 @@ export function IntegrationScriptCopy({ websiteId, websiteName }: IntegrationScr
   const scriptCode = `<script 
   async 
   src="${typeof window !== "undefined" ? window.location.origin : "https://yourapp.com"}/tracker.js" 
-  data-website-id="${websiteId}">
+  data-website-id="${websiteId}"
+  data-api-endpoint="${typeof window !== "undefined" ? window.location.origin : "https://yourapp.com"}/api/collect">
 </script>`;
 
   const handleCopy = async () => {
