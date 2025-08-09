@@ -37,7 +37,7 @@ export default async function WebsitesPage() {
     <div className="space-y-10">
       {/* Header Section */}
       <div className="text-center lg:text-left">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent mb-4">
+        <h1 className="text-4xl font-bold text-foreground mb-4">
           Your Websites
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl">

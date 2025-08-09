@@ -14,7 +14,7 @@ export function Navbar() {
   const { data: session } = useSession();
 
   return (
-    <nav className="bg-background/80 backdrop-blur-lg border-b-2 border-border/30 sticky top-0 z-50">
+    <nav className="bg-background/90 dark:bg-card/80 backdrop-blur-lg border-b-2 border-border/30 dark:border-border/60 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">

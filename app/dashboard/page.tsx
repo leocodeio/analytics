@@ -34,12 +34,12 @@ export default async function DashboardPage({
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-8">
         <div className="max-w-md mx-auto">
-          <div className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center text-2xl">
+          <div className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-primary/10 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center text-2xl">
               📊
             </div>
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent mb-6">
+          <h1 className="text-4xl font-bold text-foreground mb-6">
             Welcome to Analytics
           </h1>
           <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
@@ -70,7 +70,7 @@ export default async function DashboardPage({
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold text-foreground">
             {selectedWebsite.name}
           </h1>
           <div className="flex items-center gap-2 text-muted-foreground">
@@ -103,7 +103,7 @@ export default async function DashboardPage({
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            <div className="text-3xl font-bold text-foreground">
               {visitSeries.totalVisits.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-2">

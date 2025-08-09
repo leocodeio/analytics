@@ -3,14 +3,14 @@ import { HomeHeader } from "@/components/home-header";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-accent/20 dark:from-background dark:via-background/95 dark:to-accent/10">
+    <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <HomeHeader />
 
         {/* Hero */}
         <section className="pt-20 pb-24 sm:pt-32 sm:pb-32 text-center">
           <div className="mx-auto max-w-4xl">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-foreground via-foreground to-primary bg-clip-text text-transparent sm:text-6xl md:text-7xl tracking-tight">
+            <h1 className="text-5xl font-bold text-foreground sm:text-6xl md:text-7xl tracking-tight">
               Simple Website Visit Counter
             </h1>
             <p className="mt-8 max-w-3xl mx-auto text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
@@ -19,7 +19,7 @@ export default function Home() {
             <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 href="/auth/signup"
-                className="group px-10 py-4 rounded-xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-primary/20"
+                className="px-10 py-4 rounded-lg bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-colors"
               >
                 <span className="flex items-center gap-2">
                   Start Free
@@ -30,7 +30,7 @@ export default function Home() {
               </Link>
               <Link
                 href="#how-it-works"
-                className="px-8 py-4 rounded-xl bg-background/80 backdrop-blur-sm border-2 border-border text-foreground font-medium text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                className="px-8 py-4 rounded-lg border border-border text-foreground font-medium text-lg hover:bg-muted/50 transition-colors"
               >
                 Learn More
               </Link>
@@ -40,23 +40,23 @@ export default function Home() {
 
         {/* Single Feature */}
         <section className="py-16">
-          <div className="bg-card/80 backdrop-blur-lg border-2 border-border/50 rounded-3xl p-12 shadow-2xl max-w-4xl mx-auto text-center hover:shadow-3xl transition-all duration-500">
-            <div className="mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center text-3xl shadow-xl">
+          <div className="bg-card border border-border rounded-2xl p-12 max-w-4xl mx-auto text-center">
+            <div className="mx-auto w-20 h-20 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center text-3xl">
               🔢
             </div>
             <h2 className="mt-8 text-3xl font-bold text-foreground">Total Visits</h2>
             <p className="mt-6 text-muted-foreground leading-relaxed text-lg max-w-2xl mx-auto">
               We currently track and display total visits for your website. More metrics will be added over time.
             </p>
-            <div className="mt-10 bg-gradient-to-br from-accent/20 to-accent/10 dark:from-accent/30 dark:to-accent/10 p-8 rounded-2xl border-2 border-accent/20">
+            <div className="mt-10 bg-accent/20 p-8 rounded-2xl border border-border">
               <div className="bg-background/90 backdrop-blur-sm border-2 border-border/50 rounded-xl p-6 text-left shadow-lg">
                 <p className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wide">Dashboard Preview</p>
                 <div className="flex items-center justify-between py-3 border-b border-border/30">
                   <span className="text-base text-muted-foreground font-medium">Total Visits</span>
-                  <span className="text-3xl font-bold text-foreground bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">1,247</span>
+                  <span className="text-3xl font-bold text-foreground">1,247</span>
                 </div>
                 <div className="mt-6 w-full h-3 rounded-full bg-muted/50 overflow-hidden">
-                  <div className="h-3 bg-gradient-to-r from-primary to-primary/80 rounded-full shadow-sm animate-pulse" style={{ width: "55%" }}></div>
+                  <div className="h-3 bg-primary rounded-full animate-pulse" style={{ width: "55%" }}></div>
                 </div>
                 <p className="mt-4 text-xs text-muted-foreground text-right font-medium">(Sample data)</p>
               </div>
@@ -76,11 +76,11 @@ export default function Home() {
               <div className="flex flex-col lg:flex-row items-center gap-16">
                 <div className="lg:w-1/2 order-2 lg:order-1">
                   <div className="flex items-center mb-8">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center font-bold text-xl shadow-xl">1</div>
+                    <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">1</div>
                     <h3 className="ml-6 text-2xl font-bold">Create an Account</h3>
                   </div>
                   <p className="text-muted-foreground leading-relaxed text-lg">
-                    Sign up and add your website domain. That's all you need to begin tracking visits.
+                    Sign up and add your website domain. That&apos;s all you need to begin tracking visits.
                   </p>
                 </div>
                 <div className="lg:w-1/2 order-1 lg:order-2 w-full">
@@ -104,18 +104,17 @@ export default function Home() {
               <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
                 <div className="lg:w-1/2">
                   <div className="flex items-center mb-8">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center font-bold text-xl shadow-xl">2</div>
+                    <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">2</div>
                     <h3 className="ml-6 text-2xl font-bold">Install the Script</h3>
                   </div>
                   <p className="text-muted-foreground leading-relaxed text-lg">
-                    Copy the small script we give you into your site's &lt;head&gt; once. Zero performance impact.
+                    Copy the small script we give you into your site&apos;s &lt;head&gt; once. Zero performance impact.
                   </p>
                 </div>
                 <div className="lg:w-1/2 w-full">
                   <div className="bg-card/80 backdrop-blur-sm border-2 border-border/50 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
                     <p className="text-sm font-semibold text-muted-foreground mb-6 uppercase tracking-wide">Code Snippet</p>
-                    <pre className="bg-gray-900 dark:bg-gray-950 text-green-400 text-sm p-6 rounded-xl overflow-x-auto font-mono border-2 border-green-500/20 shadow-inner">
-{`<script async src="/tracker.js" 
+                     <pre className="bg-gray-900 dark:bg-gray-950/90 text-green-400 dark:text-purple-300 text-sm p-6 rounded-xl overflow-x-auto font-mono border-2 border-green-500/20 dark:border-primary/30 shadow-inner dark:shadow-lg">{`<script async src="/tracker.js" 
         data-website-id="abc123">
 </script>`}
                     </pre>
@@ -128,7 +127,7 @@ export default function Home() {
               <div className="flex flex-col lg:flex-row items-center gap-16">
                 <div className="lg:w-1/2 order-2 lg:order-1">
                   <div className="flex items-center mb-8">
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center font-bold text-xl shadow-xl">3</div>
+                    <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">3</div>
                     <h3 className="ml-6 text-2xl font-bold">See Total Visits</h3>
                   </div>
                   <p className="text-muted-foreground leading-relaxed text-lg">
@@ -140,11 +139,10 @@ export default function Home() {
                     <p className="text-sm font-semibold text-muted-foreground mb-6 uppercase tracking-wide">Dashboard Sample</p>
                     <div className="flex items-center justify-between py-4 border-b border-border/30">
                       <span className="text-base text-muted-foreground font-medium">Total Visits</span>
-                      <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">1,247</span>
+                      <span className="text-2xl font-bold text-foreground">1,247</span>
                     </div>
                     <div className="mt-6 w-full h-3 bg-muted/50 rounded-full overflow-hidden">
-                      <div className="h-3 bg-gradient-to-r from-primary to-primary/80 rounded-full shadow-sm animate-pulse" style={{ width: "55%" }}></div>
-                    </div>
+<div className="h-3 bg-primary rounded-full animate-pulse" style={{ width: "55%" }}></div>                    </div>
                     <p className="mt-4 text-sm text-muted-foreground text-right font-medium">(Sample data)</p>
                   </div>
                 </div>
@@ -155,7 +153,7 @@ export default function Home() {
             <div className="text-center mt-32">
               <Link
                 href="/auth/signup"
-                className="group inline-flex items-center gap-3 px-12 py-5 rounded-2xl bg-gradient-to-r from-primary to-primary/90 text-primary-foreground font-semibold text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-primary/20"
+                className="inline-flex items-center gap-3 px-12 py-5 rounded-xl bg-primary text-primary-foreground font-semibold text-xl hover:bg-primary/90 transition-colors"
               >
                 Create Free Account
                 <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">

@@ -22,7 +22,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background/95 to-accent/20 dark:from-background dark:via-background/95 dark:to-accent/10 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="absolute top-6 right-6">
         <ThemeToggle />
       </div>
@@ -31,7 +31,7 @@ export default function SignUp() {
         {/* Logo/Brand */}
         <div className="text-center">
           <Link href="/" className="inline-flex items-center gap-3 text-2xl font-bold text-foreground hover:text-primary transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center text-xl shadow-lg">
+            <div className="w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center text-xl">
               📊
             </div>
             Analytics
@@ -40,7 +40,7 @@ export default function SignUp() {
 
         <Card className="shadow-2xl border-2 border-border/50 backdrop-blur-sm bg-card/80">
           <CardHeader className="text-center space-y-4 pb-8">
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold text-foreground">
               Get started today
             </CardTitle>
             <CardDescription className="text-lg text-muted-foreground">
@@ -50,7 +50,7 @@ export default function SignUp() {
           <CardContent className="space-y-6">
             {/* Features List */}
             <div className="bg-muted/30 rounded-xl p-6 space-y-3">
-              <h3 className="font-semibold text-foreground mb-4">What you'll get:</h3>
+              <h3 className="font-semibold text-foreground mb-4">What you&apos;ll get:</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs">✓</div>
@@ -78,7 +78,7 @@ export default function SignUp() {
               size="lg"
               className="w-full group relative overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              
               <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"
