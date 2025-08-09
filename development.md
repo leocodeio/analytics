@@ -388,3 +388,24 @@ ENV PORT=3000
 CMD ["node", "server.js"]
 
 Update docker-compose.yml to use this Dockerfile for your app service. This provides a more robust deployment option for cloud providers other than Vercel.
+
+## Responsive Design Guidelines (2025-08)
+The application has been updated for improved mobile and small-screen responsiveness.
+
+Key patterns:
+- Containers: Use max-w-* with responsive horizontal padding (px-4 sm:px-6) and allow vertical stacking via flex-wrap as needed.
+- Forms & Filters: Avoid hard fixed widths; use w-full with min-w-* plus breakpoint-specific widths (e.g., min-w-[10rem] w-full sm:w-48).
+- Navigation: Desktop sidebar hidden on < md; mobile sheet menu (left slide-in) accessible via a menu button in Navbar.
+- Tables: Wrapped in overflow-x-auto container with a sensible min-w (min-w-[640px]) to preserve layout and enable horizontal scroll on narrow screens.
+- Charts: ResponsiveContainer plus adaptive fixed heights (h-64 sm:h-72 md:h-80) for better aspect on small devices.
+- Landing Page Steps: Responsive gap utilities (gap-10 sm:gap-14 lg:gap-16) and reduced hero heading size on very small screens.
+- Auth Pages: Headings scale (text-2xl sm:text-3xl) to prevent overflow; layout already centers with responsive padding.
+
+When adding new UI:
+1. Prefer flex/grid with gap utilities over margin chains.
+2. Always test at 320px, 375px, 768px, 1024px, 1280px widths.
+3. Use w-full for interactive controls inside constrained parents.
+4. Provide horizontal scrolling for any data view that would otherwise squeeze below ~280px column width.
+5. Avoid introducing fixed pixel heights unless also made responsive with breakpoint variants.
+
+Follow these conventions to maintain consistency.

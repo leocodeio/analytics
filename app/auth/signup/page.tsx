@@ -40,7 +40,7 @@ export default function SignUp() {
 
         <Card className="shadow-2xl border-2 border-border/50 backdrop-blur-sm bg-card/80">
           <CardHeader className="text-center space-y-4 pb-8">
-            <CardTitle className="text-3xl font-bold text-foreground">
+            <CardTitle className="text-2xl sm:text-3xl font-bold text-foreground">
               Get started today
             </CardTitle>
             <CardDescription className="text-lg text-muted-foreground">

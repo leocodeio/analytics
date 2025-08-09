@@ -45,13 +45,13 @@ export function DashboardFilters({
   );
 
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex flex-wrap items-center gap-3 sm:gap-4">
       {websites.length > 1 && (
         <Select
           value={selectedWebsite.id}
           onValueChange={(value) => updateFilters("website", value)}
         >
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="min-w-[10rem] w-full sm:w-48">
             <SelectValue placeholder="Select website" />
           </SelectTrigger>
           <SelectContent>
@@ -68,7 +68,7 @@ export function DashboardFilters({
         value={period}
         onValueChange={(value) => updateFilters("period", value)}
       >
-        <SelectTrigger className="w-40">
+        <SelectTrigger className="min-w-[8.5rem] w-full xs:w-auto sm:w-40">
           <SelectValue placeholder="Period" />
         </SelectTrigger>
         <SelectContent>

@@ -75,7 +75,7 @@ export function VisitsChart({ data, title = "Visits" }: VisitsChartProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-80">
+        <div className="h-64 sm:h-72 md:h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 12, right: 24, left: 12, bottom: 8 }}>
               <defs>

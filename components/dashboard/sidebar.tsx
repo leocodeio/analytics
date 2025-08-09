@@ -77,7 +77,7 @@ export function Sidebar() {
   return (
     <TooltipProvider>
       <div className={cn(
-        "bg-background border-r border-border min-h-screen transition-all duration-300",
+        "bg-background border-r border-border min-h-screen transition-all duration-300 hidden md:block",
         isCollapsed ? "w-16" : "w-64"
       )}>
         <div className={cn("p-6", isCollapsed && "px-2")}>

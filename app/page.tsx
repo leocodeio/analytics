@@ -10,7 +10,7 @@ export default function Home() {
         {/* Hero */}
         <section className="pt-20 pb-24 sm:pt-32 sm:pb-32 text-center">
           <div className="mx-auto max-w-4xl">
-            <h1 className="text-5xl font-bold text-foreground sm:text-6xl md:text-7xl tracking-tight">
+            <h1 className="text-4xl xs:text-5xl font-bold text-foreground sm:text-6xl md:text-7xl tracking-tight leading-tight">
               Simple Website Visit Counter
             </h1>
             <p className="mt-8 max-w-3xl mx-auto text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
@@ -73,7 +73,7 @@ export default function Home() {
             </div>
             <div className="space-y-32">
               {/* Step 1 */}
-              <div className="flex flex-col lg:flex-row items-center gap-16">
+              <div className="flex flex-col lg:flex-row items-center gap-10 sm:gap-14 lg:gap-16">
                 <div className="lg:w-1/2 order-2 lg:order-1">
                   <div className="flex items-center mb-8">
                     <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">1</div>
@@ -101,7 +101,7 @@ export default function Home() {
               </div>
 
               {/* Step 2 */}
-              <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
+              <div className="flex flex-col lg:flex-row-reverse items-center gap-10 sm:gap-14 lg:gap-16">
                 <div className="lg:w-1/2">
                   <div className="flex items-center mb-8">
                     <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">2</div>
@@ -124,7 +124,7 @@ export default function Home() {
               </div>
 
               {/* Step 3 */}
-              <div className="flex flex-col lg:flex-row items-center gap-16">
+              <div className="flex flex-col lg:flex-row items-center gap-10 sm:gap-14 lg:gap-16">
                 <div className="lg:w-1/2 order-2 lg:order-1">
                   <div className="flex items-center mb-8">
                     <div className="w-14 h-14 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">3</div>
