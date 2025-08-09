@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
+    "build": "pnpm db:generate && next build",
+    "start": "pnpm db:migrate && next start",
     "lint": "next lint",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",

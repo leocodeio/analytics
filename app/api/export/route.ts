@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
 
       const csvRows = [
         headers.join(","),
-        ...events.map((event) =>
+        ...events.map((event: any) =>
           [
             event.createdAt.toISOString(),
             event.eventType,
