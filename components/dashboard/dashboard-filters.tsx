@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 interface Website {
   id: string;
@@ -20,13 +22,15 @@ interface Website {
 interface DashboardFiltersProps {
   websites: Website[];
   selectedWebsite: Website;
-  period: string;
+  period: string; // day | month | year
+  includeEvents: boolean;
 }
 
 export function DashboardFilters({
   websites,
   selectedWebsite,
   period,
+  includeEvents,
 }: DashboardFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -34,7 +38,7 @@ export function DashboardFilters({
   const updateFilters = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams);
-      params.set(key, value);
+      if (value === "" || value === undefined) params.delete(key); else params.set(key, value);
       router.push(`/dashboard?${params.toString()}`);
     },
     [router, searchParams]
@@ -64,21 +68,27 @@ export function DashboardFilters({
         value={period}
         onValueChange={(value) => updateFilters("period", value)}
       >
-        <SelectTrigger className="w-48">
-          <SelectValue placeholder="Select period" />
+        <SelectTrigger className="w-40">
+          <SelectValue placeholder="Period" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="24h">Last 24 hours</SelectItem>
-          <SelectItem value="7d">Last 7 days</SelectItem>
-          <SelectItem value="30d">Last 30 days</SelectItem>
-          <SelectItem value="90d">Last 90 days</SelectItem>
+          <SelectItem value="day">Today</SelectItem>
+          <SelectItem value="month">This Month</SelectItem>
+          <SelectItem value="year">This Year</SelectItem>
         </SelectContent>
       </Select>
 
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="include-events"
+          checked={includeEvents}
+          onCheckedChange={(checked) => updateFilters("include", checked ? "1" : "0")}
+        />
+        <Label htmlFor="include-events" className="text-sm">Include custom events</Label>
+      </div>
+
       <Button asChild>
-        <a href="/dashboard/websites">
-          Manage Sites
-        </a>
+        <a href="/dashboard/websites">Manage Sites</a>
       </Button>
     </div>
   );

@@ -4,312 +4,147 @@ import { HomeHeader } from "@/components/home-header";
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <HomeHeader />
 
-        {/* Hero Section */}
-        <div className="pt-16 pb-20 sm:pt-24 sm:pb-32">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-              <span className="block">Modern Web</span>
-              <span className="block text-primary mt-2">Analytics Platform</span>
-            </h1>
-            <p className="mt-6 max-w-md mx-auto text-base text-muted-foreground sm:text-lg md:mt-8 md:text-xl md:max-w-3xl leading-relaxed">
-              Track user engagement, analyze website performance, and gain
-              insights with our privacy-focused analytics solution.
+        {/* Hero */}
+        <section className="pt-16 pb-20 sm:pt-24 sm:pb-28 text-center">
+          <h1 className="text-4xl font-extrabold text-foreground sm:text-5xl md:text-6xl">
+            Simple Website Visit Counter
+          </h1>
+          <p className="mt-6 max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
+            No vanity metrics. One number that matters right now: total visits to your site.
+          </p>
+          <div className="mt-8 flex justify-center">
+            <Link
+              href="/auth/signup"
+              className="px-8 py-4 rounded-md bg-primary text-primary-foreground font-medium text-base md:text-lg shadow hover:bg-primary/90 transition-colors"
+            >
+              Start Free
+            </Link>
+          </div>
+        </section>
+
+        {/* Single Feature */}
+        <section className="py-10">
+          <div className="bg-card border border-border rounded-2xl p-10 shadow-xl max-w-3xl mx-auto text-center">
+            <div className="mx-auto w-16 h-16 rounded-xl bg-primary text-primary-foreground flex items-center justify-center text-2xl shadow-lg">
+              🔢
+            </div>
+            <h2 className="mt-6 text-2xl font-semibold text-foreground">Total Visits</h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed text-base">
+              We currently track and display total visits for your website. More metrics will be added over time.
             </p>
-            <div className="mt-8 max-w-md mx-auto sm:flex sm:justify-center md:mt-12">
-              <div className="rounded-md shadow">
-                <Link
-                  href="/auth/signup"
-                  className="w-full flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 md:py-5 md:text-lg md:px-12 transition-all transform hover:scale-105"
-                >
-                  Start tracking for free
-                </Link>
+            <div className="mt-8 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/15 dark:to-primary/5 p-6 rounded-xl border">
+              <div className="bg-background border rounded-lg p-5 text-left">
+                <p className="text-sm font-medium text-muted-foreground mb-3">Minimal dashboard preview</p>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-muted-foreground">Total Visits</span>
+                  <span className="text-2xl font-bold text-foreground">1,247</span>
+                </div>
+                <div className="mt-4 w-full h-2 rounded-full bg-muted">
+                  <div className="h-2 bg-primary rounded-full" style={{ width: "55%" }}></div>
+                </div>
+                <p className="mt-3 text-xs text-muted-foreground text-right">(Sample data)</p>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Features Section */}
-        <div className="py-20 lg:py-24">
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-            <div className="text-center">
-              <div className="flex items-center justify-center h-16 w-16 rounded-xl bg-primary text-primary-foreground mx-auto shadow-lg">
-                📊
+        {/* How It Works */}
+        <section className="py-24">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-center text-3xl font-bold text-foreground mb-14">Get Started in 3 Steps</h2>
+            <div className="space-y-20">
+              {/* Step 1 */}
+              <div className="flex flex-col md:flex-row items-center gap-10">
+                <div className="md:w-1/2 order-2 md:order-1">
+                  <div className="flex items-center mb-5">
+                    <div className="w-10 h-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold shadow">1</div>
+                    <h3 className="ml-4 text-xl font-semibold">Create an Account</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Sign up and add your website domain. That's all you need to begin.
+                  </p>
+                </div>
+                <div className="md:w-1/2 order-1 md:order-2 w-full">
+                  <div className="bg-card border rounded-xl p-6 shadow-sm">
+                    <p className="text-sm font-medium text-muted-foreground mb-4">Example</p>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex justify-between bg-muted/40 px-4 py-2 rounded-lg">
+                        <span className="text-muted-foreground">Name</span>
+                        <span className="font-mono">My Blog</span>
+                      </div>
+                      <div className="flex justify-between bg-muted/40 px-4 py-2 rounded-lg">
+                        <span className="text-muted-foreground">Domain</span>
+                        <span className="font-mono">myblog.com</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="mt-6 text-xl font-semibold text-foreground">
-                Real-time Analytics
-              </h3>
-              <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                Monitor your website traffic and user behavior in real-time with
-                detailed insights and live visitor tracking.
-              </p>
+
+              {/* Step 2 */}
+              <div className="flex flex-col md:flex-row-reverse items-center gap-10">
+                <div className="md:w-1/2">
+                  <div className="flex items-center mb-5">
+                    <div className="w-10 h-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold shadow">2</div>
+                    <h3 className="ml-4 text-xl font-semibold">Install the Script</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Copy the small script we give you into your site's &lt;head&gt; once.
+                  </p>
+                </div>
+                <div className="md:w-1/2 w-full">
+                  <div className="bg-card border rounded-xl p-6 shadow-sm">
+                    <p className="text-sm font-medium text-muted-foreground mb-3">Snippet</p>
+                    <pre className="bg-gray-900 dark:bg-gray-950 text-green-400 text-xs p-4 rounded-lg overflow-x-auto font-mono">
+{`<script async src="/tracker.js" data-website-id="abc123"></script>`}
+                    </pre>
+                    <p className="mt-3 text-xs text-muted-foreground">Loads asynchronously. No performance drag.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex flex-col md:flex-row items-center gap-10">
+                <div className="md:w-1/2 order-2 md:order-1">
+                  <div className="flex items-center mb-5">
+                    <div className="w-10 h-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold shadow">3</div>
+                    <h3 className="ml-4 text-xl font-semibold">See Total Visits</h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Open your dashboard to view the running total of visits to your site.
+                  </p>
+                </div>
+                <div className="md:w-1/2 order-1 md:order-2 w-full">
+                  <div className="bg-card border rounded-xl p-6 shadow-sm">
+                    <p className="text-sm font-medium text-muted-foreground mb-4">Dashboard sample</p>
+                    <div className="flex items-center justify-between py-2">
+                      <span className="text-sm text-muted-foreground">Total Visits</span>
+                      <span className="text-xl font-bold">1,247</span>
+                    </div>
+                    <div className="mt-4 w-full h-2 bg-muted rounded-full">
+                      <div className="h-2 bg-primary rounded-full" style={{ width: "55%" }}></div>
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground text-right">(Sample data)</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center h-16 w-16 rounded-xl bg-primary text-primary-foreground mx-auto shadow-lg">
-                🔒
-              </div>
-              <h3 className="mt-6 text-xl font-semibold text-foreground">
-                Privacy Focused
-              </h3>
-              <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                GDPR compliant analytics without compromising user privacy or collecting personal data.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="flex items-center justify-center h-16 w-16 rounded-xl bg-primary text-primary-foreground mx-auto shadow-lg">
-                ⚡
-              </div>
-              <h3 className="mt-6 text-xl font-semibold text-foreground">
-                Lightweight
-              </h3>
-              <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                Minimal impact on your website performance with our optimized
-                tracking script under 2KB.
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* How to Add Your Website Section */}
-        <div className="py-24 lg:py-32">
-          <div className="bg-card rounded-3xl shadow-2xl border border-border overflow-hidden">
-            <div className="max-w-6xl mx-auto px-6 py-16 lg:px-12 lg:py-24">
-              <div className="text-center mb-20">
-                <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl lg:text-5xl">
-                  Get Started in 3 Simple Steps
-                </h2>
-                <p className="mt-6 text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                  Add analytics to your website in less than 5 minutes
-                </p>
-              </div>
-
-              <div className="space-y-20 lg:space-y-32">
-                {/* Step 1 */}
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                  <div className="lg:w-1/2 order-2 lg:order-1">
-                    <div className="flex items-center mb-6">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary text-primary-foreground font-bold mr-6 text-lg shadow-lg">
-                        1
-                      </div>
-                      <h3 className="text-2xl font-bold text-foreground">
-                        Sign Up & Add Your Website
-                      </h3>
-                    </div>
-                    <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                      Create your free account and add your website domain to
-                      start tracking visitor behavior and analytics.
-                    </p>
-                    <div className="bg-muted/50 p-6 rounded-xl border">
-                      <p className="text-sm text-muted-foreground font-semibold mb-4">
-                        Example:
-                      </p>
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-3">
-                          <span className="text-sm text-muted-foreground min-w-[100px]">
-                            Website Name:
-                          </span>
-                          <span className="bg-background px-3 py-2 rounded-lg text-sm font-mono border shadow-sm">
-                            My Blog
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                          <span className="text-sm text-muted-foreground min-w-[100px]">Domain:</span>
-                          <span className="bg-background px-3 py-2 rounded-lg text-sm font-mono border shadow-sm">
-                            myblog.com
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="lg:w-1/2 order-1 lg:order-2">
-                    <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-8 rounded-2xl border shadow-inner">
-                      <div className="bg-card rounded-xl shadow-lg p-6 border">
-                        <div className="flex items-center justify-between mb-6">
-                          <h4 className="text-lg font-semibold text-foreground">
-                            Add Website
-                          </h4>
-                          <div className="w-4 h-4 rounded-full bg-green-400 animate-pulse"></div>
-                        </div>
-                        <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-muted-foreground mb-2">
-                              Website Name
-                            </label>
-                            <div className="bg-muted rounded-lg px-3 py-3 text-sm font-medium">
-                              My Blog
-                            </div>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-muted-foreground mb-2">
-                              Domain
-                            </label>
-                            <div className="bg-muted rounded-lg px-3 py-3 text-sm font-medium">
-                              myblog.com
-                            </div>
-                          </div>
-                          <button className="w-full bg-primary text-primary-foreground font-medium py-3 rounded-lg hover:bg-primary/90 transition-all transform hover:scale-[1.02] shadow-lg">
-                            Add Website
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Step 2 */}
-                <div className="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-16">
-                  <div className="lg:w-1/2">
-                    <div className="flex items-center mb-6">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary text-primary-foreground font-bold mr-6 text-lg shadow-lg">
-                        2
-                      </div>
-                      <h3 className="text-2xl font-bold text-foreground">
-                        Copy the Tracking Script
-                      </h3>
-                    </div>
-                    <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                      We'll generate a unique tracking script for your website.
-                      Just copy and paste it into your site's head section.
-                    </p>
-                    <div className="bg-muted/50 p-6 rounded-xl border">
-                      <p className="text-sm text-muted-foreground font-semibold mb-4">
-                        Your tracking script:
-                      </p>
-                      <div className="bg-gray-900 dark:bg-gray-950 p-4 rounded-lg text-xs text-green-400 font-mono overflow-x-auto shadow-inner">
-                        {'<script async src="...tracker.js"'}
-                        <br />
-                        {'  data-website-id="abc123">'}
-                        <br />
-                        {"</script>"}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="lg:w-1/2">
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 p-8 rounded-2xl border shadow-inner">
-                      <div className="bg-card rounded-xl shadow-lg p-6 border">
-                        <div className="flex items-center justify-between mb-6">
-                          <h4 className="text-lg font-semibold text-foreground">
-                            Integration Code
-                          </h4>
-                          <button className="text-sm bg-primary/10 text-primary px-3 py-2 rounded-lg font-medium hover:bg-primary/20 transition-colors">
-                            Copy
-                          </button>
-                        </div>
-                        <div className="bg-gray-900 dark:bg-gray-950 text-green-400 p-4 rounded-lg text-xs font-mono shadow-inner">
-                          <div>{"<script async"}</div>
-                          <div className="ml-2">
-                            {'src="https://analytics.com/tracker.js"'}
-                          </div>
-                          <div className="ml-2">
-                            {'data-website-id="abc123">'}
-                          </div>
-                          <div>{"</script>"}</div>
-                        </div>
-                        <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
-                          Paste this in your website's &lt;head&gt; section
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Step 3 */}
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                  <div className="lg:w-1/2 order-2 lg:order-1">
-                    <div className="flex items-center mb-6">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary text-primary-foreground font-bold mr-6 text-lg shadow-lg">
-                        3
-                      </div>
-                      <h3 className="text-2xl font-bold text-foreground">
-                        Start Tracking & View Analytics
-                      </h3>
-                    </div>
-                    <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                      Once installed, you'll immediately start seeing visitor data
-                      in your dashboard with real-time insights and historical trends.
-                    </p>
-                    <div className="flex flex-wrap gap-4 text-sm">
-                      <div className="flex items-center bg-muted/50 px-4 py-2 rounded-lg border">
-                        <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                        <span className="text-foreground font-medium">Real-time tracking</span>
-                      </div>
-                      <div className="flex items-center bg-muted/50 px-4 py-2 rounded-lg border">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
-                        <span className="text-foreground font-medium">Historical data</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="lg:w-1/2 order-1 lg:order-2">
-                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 p-8 rounded-2xl border shadow-inner">
-                      <div className="bg-card rounded-xl shadow-lg p-6 border">
-                        <div className="flex items-center justify-between mb-6">
-                          <h4 className="text-lg font-semibold text-foreground">
-                            Analytics Dashboard
-                          </h4>
-                          <div className="flex items-center text-sm text-green-600 bg-green-50 dark:bg-green-950/30 px-3 py-1 rounded-lg">
-                            <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-                            Live
-                          </div>
-                        </div>
-                        <div className="space-y-4">
-                          <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
-                            <span className="text-sm text-muted-foreground font-medium">
-                              Page Views
-                            </span>
-                            <span className="font-bold text-foreground text-lg">1,247</span>
-                          </div>
-                          <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
-                            <span className="text-sm text-muted-foreground font-medium">
-                              Unique Visitors
-                            </span>
-                            <span className="font-bold text-foreground text-lg">892</span>
-                          </div>
-                          <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
-                            <span className="text-sm text-muted-foreground font-medium">
-                              Active Now
-                            </span>
-                            <span className="font-bold text-green-600 text-lg">
-                              23
-                            </span>
-                          </div>
-                          <div className="w-full bg-muted rounded-full h-3 mt-4">
-                            <div
-                              className="bg-primary h-3 rounded-full shadow-sm"
-                              style={{ width: "68%" }}
-                            ></div>
-                          </div>
-                          <p className="text-sm text-muted-foreground text-center mt-3">
-                            Traffic trend: +12% this week
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Call to Action */}
-              <div className="text-center mt-20">
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <Link
-                    href="/demo"
-                    className="inline-flex items-center px-8 py-4 border border-primary/30 text-base font-medium rounded-xl text-primary bg-primary/5 hover:bg-primary/10 transition-all transform hover:scale-105 shadow-lg"
-                  >
-                    View Live Demo
-                  </Link>
-                  <Link
-                    href="/auth/signup"
-                    className="inline-flex items-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-primary-foreground bg-primary hover:bg-primary/90 transition-all transform hover:scale-105 shadow-lg"
-                  >
-                    Start Free Trial
-                  </Link>
-                </div>
-              </div>
+            {/* CTA */}
+            <div className="text-center mt-24">
+              <Link
+                href="/auth/signup"
+                className="inline-flex items-center px-10 py-4 rounded-xl bg-primary text-primary-foreground font-medium text-base shadow hover:bg-primary/90 transition-transform hover:scale-[1.03]"
+              >
+                Create Free Account
+              </Link>
+              <p className="mt-4 text-xs text-muted-foreground">More metrics coming soon.</p>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
