@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { cache } from "react";
 
 // ------------------------------------------------------------------------------------
 // Legacy (full) analytics functions kept temporarily during refactor. These will be
@@ -218,7 +219,8 @@ export function getPeriodRange(period: 'day'|'month'|'year') {
   return { start: startOfYear(), end: now };
 }
 
-export async function getVisitSeries(websiteId: string, period: 'day'|'month'|'year', includeEvents: boolean): Promise<VisitSeriesResult> {
+// Cache the expensive analytics calculation
+export const getVisitSeries = cache(async function getVisitSeries(websiteId: string, period: 'day'|'month'|'year', includeEvents: boolean): Promise<VisitSeriesResult> {
   const { start, end } = getPeriodRange(period);
   const whereEventType = includeEvents ? undefined : 'pageview';
 
@@ -307,4 +309,4 @@ export async function getVisitSeries(websiteId: string, period: 'day'|'month'|'y
   }
 
   return { totalVisits, buckets, period, includeEvents };
-}
+});

@@ -96,6 +96,10 @@ model Event {
   ip           String?
   createdAt    DateTime @default(now())
   
+  // Optimized indexes for analytics queries
   @@index([websiteId, createdAt])
+  @@index([websiteId, eventType, createdAt])
+  @@index([sessionId])
+  @@index([websiteId, eventType])
   @@map("events")
 }

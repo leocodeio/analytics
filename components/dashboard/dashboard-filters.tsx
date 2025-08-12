@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -34,12 +34,15 @@ export function DashboardFilters({
 }: DashboardFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const updateFilters = useCallback(
     (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      if (value === "" || value === undefined) params.delete(key); else params.set(key, value);
-      router.push(`/dashboard?${params.toString()}`);
+      startTransition(() => {
+        const params = new URLSearchParams(searchParams);
+        if (value === "" || value === undefined) params.delete(key); else params.set(key, value);
+        router.push(`/dashboard?${params.toString()}`);
+      });
     },
     [router, searchParams]
   );
@@ -50,6 +53,7 @@ export function DashboardFilters({
         <Select
           value={selectedWebsite.id}
           onValueChange={(value) => updateFilters("website", value)}
+          disabled={isPending}
         >
           <SelectTrigger className="min-w-[10rem] w-full sm:w-48">
             <SelectValue placeholder="Select website" />
@@ -67,6 +71,7 @@ export function DashboardFilters({
       <Select
         value={period}
         onValueChange={(value) => updateFilters("period", value)}
+        disabled={isPending}
       >
         <SelectTrigger className="min-w-[8.5rem] w-full xs:w-auto sm:w-40">
           <SelectValue placeholder="Period" />
@@ -83,12 +88,15 @@ export function DashboardFilters({
           id="include-events"
           checked={includeEvents}
           onCheckedChange={(checked) => updateFilters("include", checked ? "1" : "0")}
+          disabled={isPending}
         />
         <Label htmlFor="include-events" className="text-sm">Include custom events</Label>
       </div>
 
-      <Button asChild>
-        <a href="/dashboard/websites">Manage Sites</a>
+      <Button asChild disabled={isPending}>
+        <a href="/dashboard/websites">
+          {isPending ? "Loading..." : "Manage Sites"}
+        </a>
       </Button>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import {
   LineChart,
   Line,
@@ -18,7 +18,7 @@ interface VisitsChartProps {
   title?: string;
 }
 
-export function VisitsChart({ data, title = "Visits" }: VisitsChartProps) {
+export const VisitsChart = memo(function VisitsChart({ data, title = "Visits" }: VisitsChartProps) {
   const { theme } = useTheme();
   const [vars, setVars] = useState({
     primary: "",
@@ -151,4 +151,4 @@ export function VisitsChart({ data, title = "Visits" }: VisitsChartProps) {
       </CardContent>
     </Card>
   );
-}
+});
