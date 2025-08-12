@@ -96,5 +96,6 @@ model Event {
   ip           String?
   createdAt    DateTime @default(now())
   
+  @@index([websiteId, createdAt])
   @@map("events")
 }

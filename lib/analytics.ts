@@ -221,28 +221,60 @@ export function getPeriodRange(period: 'day'|'month'|'year') {
 export async function getVisitSeries(websiteId: string, period: 'day'|'month'|'year', includeEvents: boolean): Promise<VisitSeriesResult> {
   const { start, end } = getPeriodRange(period);
   const whereEventType = includeEvents ? undefined : 'pageview';
-  const events = await prisma.event.findMany({
-    where: {
-      websiteId,
-      createdAt: { gte: start, lte: end },
-      ...(whereEventType ? { eventType: whereEventType } : {})
-    },
-    select: { createdAt: true },
-  });
 
-  const buckets: VisitSeriesBucket[] = [];
+  const commonWhere = {
+    websiteId,
+    createdAt: { gte: start, lte: end },
+    ...(whereEventType ? { eventType: whereEventType } : {})
+  };
+
+  const totalVisits = await prisma.event.count({ where: commonWhere });
+
+  let buckets: VisitSeriesBucket[] = [];
+
   if (period === 'day') {
-    for (let h=0; h<24; h++) buckets.push({ label: h.toString().padStart(2,'0'), count: 0 });
-    events.forEach(e => { buckets[e.createdAt.getHours()].count++; });
+    const result = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
+      SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
+      FROM "events"
+      WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+      ${whereEventType ? `AND "eventType" = '${whereEventType}'` : ''}
+      GROUP BY hour
+      ORDER BY hour;
+    `;
+    
+    const countsByHour = new Map(result.map(r => [r.hour, Number(r.count)]));
+    for (let h=0; h<24; h++) {
+      buckets.push({ label: h.toString().padStart(2,'0'), count: countsByHour.get(h) || 0 });
+    }
   } else if (period === 'month') {
+    const result = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
+      SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
+      FROM "events"
+      WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+      ${whereEventType ? `AND "eventType" = '${whereEventType}'` : ''}
+      GROUP BY day
+      ORDER BY day;
+    `;
     const daysInMonth = new Date(start.getFullYear(), start.getMonth()+1, 0).getDate();
-    for (let d=1; d<=daysInMonth; d++) buckets.push({ label: d.toString(), count: 0 });
-    events.forEach(e => { buckets[e.createdAt.getDate()-1].count++; });
+    const countsByDay = new Map(result.map(r => [r.day, Number(r.count)]));
+    for (let d=1; d<=daysInMonth; d++) {
+      buckets.push({ label: d.toString(), count: countsByDay.get(d) || 0 });
+    }
   } else { // year
+    const result = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
+      SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
+      FROM "events"
+      WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+      ${whereEventType ? `AND "eventType" = '${whereEventType}'` : ''}
+      GROUP BY month
+      ORDER BY month;
+    `;
     const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    for (let m=0; m<12; m++) buckets.push({ label: monthNames[m], count: 0 });
-    events.forEach(e => { buckets[e.createdAt.getMonth()].count++; });
+    const countsByMonth = new Map(result.map(r => [r.month, Number(r.count)]));
+    for (let m=1; m<=12; m++) {
+      buckets.push({ label: monthNames[m-1], count: countsByMonth.get(m) || 0 });
+    }
   }
 
-  return { totalVisits: events.length, buckets, period, includeEvents };
+  return { totalVisits, buckets, period, includeEvents };
 }

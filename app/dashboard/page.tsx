@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -8,6 +9,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ParamsShape {
   period?: string;
@@ -18,12 +20,10 @@ interface ParamsShape {
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: Promise<ParamsShape>;
+  searchParams: ParamsShape;
 }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/auth/signin");
-
-  const params = await searchParams;
 
   const websites = await prisma.website.findMany({
     where: { userId: session!.user.id },
@@ -58,12 +58,10 @@ export default async function DashboardPage({
     );
   }
 
-  const selectedWebsiteId = params.website || websites[0].id;
+  const selectedWebsiteId = searchParams.website || websites[0].id;
   const selectedWebsite = websites.find(w => w.id === selectedWebsiteId) || websites[0];
-  const period = (params.period === 'day' || params.period === 'month' || params.period === 'year') ? params.period : 'day';
-  const includeEvents = params.include === '1';
-
-  const visitSeries = await getVisitSeries(selectedWebsite.id, period, includeEvents);
+  const period = (searchParams.period === 'day' || searchParams.period === 'month' || searchParams.period === 'year') ? searchParams.period : 'day';
+  const includeEvents = searchParams.include === '1';
 
   return (
     <div className="space-y-10">
@@ -88,6 +86,22 @@ export default async function DashboardPage({
         />
       </div>
 
+      <Suspense fallback={<AnalyticsSkeleton />}>
+        <AnalyticsData
+          websiteId={selectedWebsite.id}
+          period={period}
+          includeEvents={includeEvents}
+        />
+      </Suspense>
+    </div>
+  );
+}
+
+async function AnalyticsData({ websiteId, period, includeEvents }: { websiteId: string, period: 'day' | 'month' | 'year', includeEvents: boolean }) {
+  const visitSeries = await getVisitSeries(websiteId, period, includeEvents);
+
+  return (
+    <>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
@@ -107,7 +121,7 @@ export default async function DashboardPage({
               {visitSeries.totalVisits.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              {period === 'day' ? 'Last 30 days' : period === 'month' ? 'Last 12 months' : 'Last 5 years'}
+              {period === 'day' ? 'Last 24 hours' : period === 'month' ? 'This month' : 'This year'}
             </p>
           </CardContent>
         </Card>
@@ -160,6 +174,48 @@ export default async function DashboardPage({
       <div className="space-y-6">
         <VisitsChart data={visitSeries.buckets} title={`Visits Over Time (${period})`} />
       </div>
-    </div>
+    </>
   );
+}
+
+function AnalyticsSkeleton() {
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-8 w-8 rounded-lg" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-8 w-1/2 mb-2" />
+            <Skeleton className="h-3 w-1/3" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-8 w-8 rounded-lg" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-8 w-1/2 mb-2" />
+            <Skeleton className="h-3 w-1/3" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-8 w-8 rounded-lg" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-8 w-1/2 mb-2" />
+            <Skeleton className="h-3 w-1/3" />
+          </CardContent>
+        </Card>
+      </div>
+      <div className="space-y-6">
+        <Skeleton className="h-80 w-full" />
+      </div>
+    </>
+  )
 }
