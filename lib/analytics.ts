@@ -233,42 +233,72 @@ export async function getVisitSeries(websiteId: string, period: 'day'|'month'|'y
   let buckets: VisitSeriesBucket[] = [];
 
   if (period === 'day') {
-    const result = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
-      SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
-      FROM "events"
-      WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-      ${whereEventType ? `AND "eventType" = '${whereEventType}'` : ''}
-      GROUP BY hour
-      ORDER BY hour;
-    `;
+    let result;
+    if (whereEventType) {
+      result = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
+        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
+        GROUP BY hour
+        ORDER BY hour;
+      `;
+    } else {
+      result = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
+        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+        GROUP BY hour
+        ORDER BY hour;
+      `;
+    }
     
     const countsByHour = new Map(result.map(r => [r.hour, Number(r.count)]));
     for (let h=0; h<24; h++) {
       buckets.push({ label: h.toString().padStart(2,'0'), count: countsByHour.get(h) || 0 });
     }
   } else if (period === 'month') {
-    const result = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
-      SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
-      FROM "events"
-      WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-      ${whereEventType ? `AND "eventType" = '${whereEventType}'` : ''}
-      GROUP BY day
-      ORDER BY day;
-    `;
+    let result;
+    if (whereEventType) {
+      result = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
+        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
+        GROUP BY day
+        ORDER BY day;
+      `;
+    } else {
+      result = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
+        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+        GROUP BY day
+        ORDER BY day;
+      `;
+    }
     const daysInMonth = new Date(start.getFullYear(), start.getMonth()+1, 0).getDate();
     const countsByDay = new Map(result.map(r => [r.day, Number(r.count)]));
     for (let d=1; d<=daysInMonth; d++) {
       buckets.push({ label: d.toString(), count: countsByDay.get(d) || 0 });
     }
   } else { // year
-    const result = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
-      SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
-      FROM "events"
-      WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-      ${whereEventType ? `AND "eventType" = '${whereEventType}'` : ''}
-      GROUP BY month
-      ORDER BY month;
-    `;
+    let result;
+    if (whereEventType) {
+      result = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
+        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
+        GROUP BY month
+        ORDER BY month;
+      `;
+    } else {
+      result = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
+        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+        GROUP BY month
+        ORDER BY month;
+      `;
+    }
     const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const countsByMonth = new Map(result.map(r => [r.month, Number(r.count)]));
     for (let m=1; m<=12; m++) {
