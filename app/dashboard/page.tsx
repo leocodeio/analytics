@@ -20,7 +20,7 @@ interface ParamsShape {
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: ParamsShape;
+  searchParams: Promise<ParamsShape>;
 }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/auth/signin");
@@ -58,10 +58,11 @@ export default async function DashboardPage({
     );
   }
 
-  const selectedWebsiteId = searchParams.website || websites[0].id;
+  const params = await searchParams;
+  const selectedWebsiteId = params.website || websites[0].id;
   const selectedWebsite = websites.find(w => w.id === selectedWebsiteId) || websites[0];
-  const period = (searchParams.period === 'day' || searchParams.period === 'month' || searchParams.period === 'year') ? searchParams.period : 'day';
-  const includeEvents = searchParams.include === '1';
+  const period = (params.period === 'day' || params.period === 'month' || params.period === 'year') ? params.period : 'day';
+  const includeEvents = params.include === '1';
 
   return (
     <div className="space-y-10">
