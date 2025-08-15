@@ -94,6 +94,18 @@ CREATE UNIQUE INDEX "verificationtokens_identifier_token_key" ON "verificationto
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
+-- CreateIndex
+CREATE INDEX "events_websiteId_createdAt_idx" ON "events"("websiteId", "createdAt");
+
+-- CreateIndex
+CREATE INDEX "events_websiteId_eventType_createdAt_idx" ON "events"("websiteId", "eventType", "createdAt");
+
+-- CreateIndex
+CREATE INDEX "events_sessionId_idx" ON "events"("sessionId");
+
+-- CreateIndex
+CREATE INDEX "events_websiteId_eventType_idx" ON "events"("websiteId", "eventType");
+
 -- AddForeignKey
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 

@@ -203,6 +203,7 @@ export interface VisitSeriesBucket {
 }
 export interface VisitSeriesResult {
   totalVisits: number;
+  uniqueViewers: number;
   buckets: VisitSeriesBucket[];
   period: 'day' | 'month' | 'year';
   includeEvents: boolean;
@@ -231,6 +232,14 @@ export const getVisitSeries = cache(async function getVisitSeries(websiteId: str
   };
 
   const totalVisits = await prisma.event.count({ where: commonWhere });
+  
+  // Get unique viewers by counting distinct sessionIds
+  const uniqueViewersResult = await prisma.event.findMany({
+    where: commonWhere,
+    select: { sessionId: true },
+    distinct: ['sessionId']
+  });
+  const uniqueViewers = uniqueViewersResult.length;
 
   let buckets: VisitSeriesBucket[] = [];
 
@@ -308,5 +317,23 @@ export const getVisitSeries = cache(async function getVisitSeries(websiteId: str
     }
   }
 
-  return { totalVisits, buckets, period, includeEvents };
+  return { totalVisits, uniqueViewers, buckets, period, includeEvents };
 });
+
+export async function getUniqueViewers(
+  websiteId: string,
+  timeRange: TimeRange
+): Promise<number> {
+  const { start, end } = timeRange;
+  
+  const uniqueViewersResult = await prisma.event.findMany({
+    where: {
+      websiteId,
+      createdAt: { gte: start, lte: end },
+    },
+    select: { sessionId: true },
+    distinct: ['sessionId']
+  });
+  
+  return uniqueViewersResult.length;
+}

@@ -127,24 +127,24 @@ async function AnalyticsData({ websiteId, period, includeEvents }: { websiteId: 
           </CardContent>
         </Card>
 
-        {/* Placeholder cards for future metrics */}
-        <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 opacity-60">
+        {/* Unique Viewers Card */}
+        <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Unique Visitors
+              Unique Viewers
             </CardTitle>
-            <div className="w-8 h-8 rounded-lg bg-muted/30 text-muted-foreground flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-secondary/10 text-secondary-foreground flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-muted-foreground">
-              Coming Soon
+            <div className="text-3xl font-bold text-foreground">
+              {visitSeries.uniqueViewers.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              Unique visitor tracking
+              {period === 'day' ? 'Last 24 hours' : period === 'month' ? 'This month' : 'This year'}
             </p>
           </CardContent>
         </Card>
