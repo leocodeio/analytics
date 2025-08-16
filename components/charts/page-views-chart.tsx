@@ -11,15 +11,18 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider"; // your existing theme context
 
 interface VisitsChartProps {
-  data: Array<{ label: string; count: number }>;
+  data: Array<{ label: string; count: number; uniqueViewers?: number }>;
   title?: string;
+  showToggle?: boolean;
 }
 
-export const VisitsChart = memo(function VisitsChart({ data, title = "Visits" }: VisitsChartProps) {
+export const VisitsChart = memo(function VisitsChart({ data, title = "Visits", showToggle = false }: VisitsChartProps) {
   const { theme } = useTheme();
+  const [showUniqueViewers, setShowUniqueViewers] = useState(false);
   const [vars, setVars] = useState({
     primary: "",
     border: "",
@@ -61,18 +64,44 @@ export const VisitsChart = memo(function VisitsChart({ data, title = "Visits" }:
     );
   }
 
+  // Debug: Log the data structure
+  console.log("Chart data:", data);
+
+  const currentDataKey = showUniqueViewers && data[0]?.uniqueViewers !== undefined ? 'uniqueViewers' : 'count';
+  const currentLabel = showUniqueViewers && data[0]?.uniqueViewers !== undefined ? 'Unique Viewers' : 'Visits';
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <div
-            className="w-3 h-3 rounded-full"
-            style={{
-              background: `linear-gradient(to right, ${vars.primary}, ${vars.primary} / 0.7)`,
-            }}
-          />
-          {title}
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{
+                background: `linear-gradient(to right, ${vars.primary}, ${vars.primary} / 0.7)`,
+              }}
+            />
+            {title}
+          </CardTitle>
+          {showToggle && data[0]?.uniqueViewers !== undefined && (
+            <div className="flex gap-2">
+              <Button
+                variant={!showUniqueViewers ? "default" : "outline"}
+                size="sm"
+                onClick={() => setShowUniqueViewers(false)}
+              >
+                All Visits
+              </Button>
+              <Button
+                variant={showUniqueViewers ? "default" : "outline"}
+                size="sm"
+                onClick={() => setShowUniqueViewers(true)}
+              >
+                Unique Viewers
+              </Button>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="h-64 sm:h-72 md:h-80">
@@ -125,10 +154,10 @@ export const VisitsChart = memo(function VisitsChart({ data, title = "Visits" }:
               />
               <Line
                 type="monotone"
-                dataKey="count"
+                dataKey={currentDataKey}
                 stroke={vars.primary}
                 strokeWidth={2.5}
-                name="Visits"
+                name={currentLabel}
                 dot={{
                   fill: vars.primary,
                   strokeWidth: 1.5,

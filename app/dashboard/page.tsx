@@ -173,7 +173,11 @@ async function AnalyticsData({ websiteId, period, includeEvents }: { websiteId: 
 
       {/* Chart Section */}
       <div className="space-y-6">
-        <VisitsChart data={visitSeries.buckets} title={`Visits Over Time (${period})`} />
+        <VisitsChart 
+          data={visitSeries.buckets} 
+          title={`Visits Over Time (${period})`} 
+          showToggle={true}
+        />
       </div>
     </>
   );

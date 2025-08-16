@@ -200,6 +200,7 @@ export async function getRealtimeData(websiteId: string) {
 export interface VisitSeriesBucket {
   label: string; // hour (00-23), day (1-31), or month short name
   count: number;
+  uniqueViewers: number;
 }
 export interface VisitSeriesResult {
   totalVisits: number;
@@ -244,18 +245,32 @@ export const getVisitSeries = cache(async function getVisitSeries(websiteId: str
   let buckets: VisitSeriesBucket[] = [];
 
   if (period === 'day') {
-    let result;
+    let visitResult, uniqueResult;
     if (whereEventType) {
-      result = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
+      visitResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
         SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
         FROM "events"
         WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
         GROUP BY hour
         ORDER BY hour;
       `;
+      uniqueResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
+        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(DISTINCT "sessionId") as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
+        GROUP BY hour
+        ORDER BY hour;
+      `;
     } else {
-      result = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
+      visitResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
         SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+        GROUP BY hour
+        ORDER BY hour;
+      `;
+      uniqueResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
+        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(DISTINCT "sessionId") as count
         FROM "events"
         WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
         GROUP BY hour
@@ -263,23 +278,42 @@ export const getVisitSeries = cache(async function getVisitSeries(websiteId: str
       `;
     }
     
-    const countsByHour = new Map(result.map(r => [r.hour, Number(r.count)]));
+    const countsByHour = new Map(visitResult.map(r => [r.hour, Number(r.count)]));
+    const uniqueByHour = new Map(uniqueResult.map(r => [r.hour, Number(r.count)]));
     for (let h=0; h<24; h++) {
-      buckets.push({ label: h.toString().padStart(2,'0'), count: countsByHour.get(h) || 0 });
+      buckets.push({ 
+        label: h.toString().padStart(2,'0'), 
+        count: countsByHour.get(h) || 0,
+        uniqueViewers: uniqueByHour.get(h) || 0
+      });
     }
   } else if (period === 'month') {
-    let result;
+    let visitResult, uniqueResult;
     if (whereEventType) {
-      result = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
+      visitResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
         SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
         FROM "events"
         WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
         GROUP BY day
         ORDER BY day;
       `;
+      uniqueResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
+        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(DISTINCT "sessionId") as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
+        GROUP BY day
+        ORDER BY day;
+      `;
     } else {
-      result = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
+      visitResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
         SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+        GROUP BY day
+        ORDER BY day;
+      `;
+      uniqueResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
+        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(DISTINCT "sessionId") as count
         FROM "events"
         WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
         GROUP BY day
@@ -287,23 +321,42 @@ export const getVisitSeries = cache(async function getVisitSeries(websiteId: str
       `;
     }
     const daysInMonth = new Date(start.getFullYear(), start.getMonth()+1, 0).getDate();
-    const countsByDay = new Map(result.map(r => [r.day, Number(r.count)]));
+    const countsByDay = new Map(visitResult.map(r => [r.day, Number(r.count)]));
+    const uniqueByDay = new Map(uniqueResult.map(r => [r.day, Number(r.count)]));
     for (let d=1; d<=daysInMonth; d++) {
-      buckets.push({ label: d.toString(), count: countsByDay.get(d) || 0 });
+      buckets.push({ 
+        label: d.toString(), 
+        count: countsByDay.get(d) || 0,
+        uniqueViewers: uniqueByDay.get(d) || 0
+      });
     }
   } else { // year
-    let result;
+    let visitResult, uniqueResult;
     if (whereEventType) {
-      result = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
+      visitResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
         SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
         FROM "events"
         WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
         GROUP BY month
         ORDER BY month;
       `;
+      uniqueResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
+        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(DISTINCT "sessionId") as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
+        GROUP BY month
+        ORDER BY month;
+      `;
     } else {
-      result = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
+      visitResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
         SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
+        FROM "events"
+        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
+        GROUP BY month
+        ORDER BY month;
+      `;
+      uniqueResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
+        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(DISTINCT "sessionId") as count
         FROM "events"
         WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
         GROUP BY month
@@ -311,9 +364,14 @@ export const getVisitSeries = cache(async function getVisitSeries(websiteId: str
       `;
     }
     const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const countsByMonth = new Map(result.map(r => [r.month, Number(r.count)]));
+    const countsByMonth = new Map(visitResult.map(r => [r.month, Number(r.count)]));
+    const uniqueByMonth = new Map(uniqueResult.map(r => [r.month, Number(r.count)]));
     for (let m=1; m<=12; m++) {
-      buckets.push({ label: monthNames[m-1], count: countsByMonth.get(m) || 0 });
+      buckets.push({ 
+        label: monthNames[m-1], 
+        count: countsByMonth.get(m) || 0,
+        uniqueViewers: uniqueByMonth.get(m) || 0
+      });
     }
   }
 
