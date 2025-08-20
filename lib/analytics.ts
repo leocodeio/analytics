@@ -245,132 +245,107 @@ export const getVisitSeries = cache(async function getVisitSeries(websiteId: str
   let buckets: VisitSeriesBucket[] = [];
 
   if (period === 'day') {
-    let visitResult, uniqueResult;
-    if (whereEventType) {
-      visitResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
-        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
-        GROUP BY hour
-        ORDER BY hour;
-      `;
-      uniqueResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
-        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(DISTINCT "sessionId") as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
-        GROUP BY hour
-        ORDER BY hour;
-      `;
-    } else {
-      visitResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
-        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(*) as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-        GROUP BY hour
-        ORDER BY hour;
-      `;
-      uniqueResult = await prisma.$queryRaw<Array<{ hour: number, count: bigint }>>`
-        SELECT EXTRACT(HOUR FROM "createdAt") as hour, COUNT(DISTINCT "sessionId") as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-        GROUP BY hour
-        ORDER BY hour;
-      `;
-    }
-    
-    const countsByHour = new Map(visitResult.map(r => [r.hour, Number(r.count)]));
-    const uniqueByHour = new Map(uniqueResult.map(r => [r.hour, Number(r.count)]));
-    for (let h=0; h<24; h++) {
+    // Get all events for the day and group by hour in memory
+    const dayEvents = await prisma.event.findMany({
+      where: commonWhere,
+      select: { 
+        createdAt: true, 
+        sessionId: true 
+      }
+    });
+
+    // Group by hour
+    const countsByHour = new Map<number, number>();
+    const sessionsByHour = new Map<number, Set<string>>();
+
+    dayEvents.forEach(event => {
+      const hour = event.createdAt.getHours();
+      
+      // Count total events
+      countsByHour.set(hour, (countsByHour.get(hour) || 0) + 1);
+      
+      // Track unique sessions per hour
+      if (!sessionsByHour.has(hour)) {
+        sessionsByHour.set(hour, new Set());
+      }
+      sessionsByHour.get(hour)!.add(event.sessionId);
+    });
+
+    for (let h = 0; h < 24; h++) {
       buckets.push({ 
         label: h.toString().padStart(2,'0'), 
         count: countsByHour.get(h) || 0,
-        uniqueViewers: uniqueByHour.get(h) || 0
+        uniqueViewers: sessionsByHour.get(h)?.size || 0
       });
     }
   } else if (period === 'month') {
-    let visitResult, uniqueResult;
-    if (whereEventType) {
-      visitResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
-        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
-        GROUP BY day
-        ORDER BY day;
-      `;
-      uniqueResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
-        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(DISTINCT "sessionId") as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
-        GROUP BY day
-        ORDER BY day;
-      `;
-    } else {
-      visitResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
-        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(*) as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-        GROUP BY day
-        ORDER BY day;
-      `;
-      uniqueResult = await prisma.$queryRaw<Array<{ day: number, count: bigint }>>`
-        SELECT EXTRACT(DAY FROM "createdAt") as day, COUNT(DISTINCT "sessionId") as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-        GROUP BY day
-        ORDER BY day;
-      `;
-    }
+    // Get all events for the month and group by day in memory
+    const monthEvents = await prisma.event.findMany({
+      where: commonWhere,
+      select: { 
+        createdAt: true, 
+        sessionId: true 
+      }
+    });
+
+    // Group by day
+    const countsByDay = new Map<number, number>();
+    const sessionsByDay = new Map<number, Set<string>>();
+
+    monthEvents.forEach(event => {
+      const day = event.createdAt.getDate();
+      
+      // Count total events
+      countsByDay.set(day, (countsByDay.get(day) || 0) + 1);
+      
+      // Track unique sessions per day
+      if (!sessionsByDay.has(day)) {
+        sessionsByDay.set(day, new Set());
+      }
+      sessionsByDay.get(day)!.add(event.sessionId);
+    });
+
     const daysInMonth = new Date(start.getFullYear(), start.getMonth()+1, 0).getDate();
-    const countsByDay = new Map(visitResult.map(r => [r.day, Number(r.count)]));
-    const uniqueByDay = new Map(uniqueResult.map(r => [r.day, Number(r.count)]));
-    for (let d=1; d<=daysInMonth; d++) {
+    for (let d = 1; d <= daysInMonth; d++) {
       buckets.push({ 
         label: d.toString(), 
         count: countsByDay.get(d) || 0,
-        uniqueViewers: uniqueByDay.get(d) || 0
+        uniqueViewers: sessionsByDay.get(d)?.size || 0
       });
     }
   } else { // year
-    let visitResult, uniqueResult;
-    if (whereEventType) {
-      visitResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
-        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
-        GROUP BY month
-        ORDER BY month;
-      `;
-      uniqueResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
-        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(DISTINCT "sessionId") as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end} AND "eventType" = ${whereEventType}
-        GROUP BY month
-        ORDER BY month;
-      `;
-    } else {
-      visitResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
-        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(*) as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-        GROUP BY month
-        ORDER BY month;
-      `;
-      uniqueResult = await prisma.$queryRaw<Array<{ month: number, count: bigint }>>`
-        SELECT EXTRACT(MONTH FROM "createdAt") as month, COUNT(DISTINCT "sessionId") as count
-        FROM "events"
-        WHERE "websiteId" = ${websiteId} AND "createdAt" >= ${start} AND "createdAt" <= ${end}
-        GROUP BY month
-        ORDER BY month;
-      `;
-    }
+    // Get all events for the year and group by month in memory
+    const yearEvents = await prisma.event.findMany({
+      where: commonWhere,
+      select: { 
+        createdAt: true, 
+        sessionId: true 
+      }
+    });
+
+    // Group by month
+    const countsByMonth = new Map<number, number>();
+    const sessionsByMonth = new Map<number, Set<string>>();
+
+    yearEvents.forEach(event => {
+      const month = event.createdAt.getMonth() + 1; // getMonth() is 0-based
+      
+      // Count total events
+      countsByMonth.set(month, (countsByMonth.get(month) || 0) + 1);
+      
+      // Track unique sessions per month
+      if (!sessionsByMonth.has(month)) {
+        sessionsByMonth.set(month, new Set());
+      }
+      sessionsByMonth.get(month)!.add(event.sessionId);
+    });
+
     const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const countsByMonth = new Map(visitResult.map(r => [r.month, Number(r.count)]));
-    const uniqueByMonth = new Map(uniqueResult.map(r => [r.month, Number(r.count)]));
-    for (let m=1; m<=12; m++) {
+    for (let m = 1; m <= 12; m++) {
       buckets.push({ 
         label: monthNames[m-1], 
         count: countsByMonth.get(m) || 0,
-        uniqueViewers: uniqueByMonth.get(m) || 0
+        uniqueViewers: sessionsByMonth.get(m)?.size || 0
       });
     }
   }

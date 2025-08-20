@@ -100,7 +100,7 @@ export default async function DashboardPage({
 
 async function AnalyticsData({ websiteId, period, includeEvents }: { websiteId: string, period: 'day' | 'month' | 'year', includeEvents: boolean }) {
   const visitSeries = await getVisitSeries(websiteId, period, includeEvents);
-
+  // console.log(visitSeries);
   return (
     <>
       {/* Stats Cards */}
